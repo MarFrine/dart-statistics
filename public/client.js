@@ -36,6 +36,7 @@ function sendLoginData(event, formElement){
         } else {
 
             document.getElementById("loginError").style.display = "none";
+            document.getElementById("loginField").style.display = "none";
 
         }
     });
