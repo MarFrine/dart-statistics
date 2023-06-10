@@ -1,82 +1,42 @@
+:root{
+    --color_main: black;
+    --color_interface: rgb(49, 49, 49);
+    --color_interface_dark: rgb(25,25,25);
+    --color_interface_light: rgb(70,70,70);
+    --color_highlights: rgb(120, 20, 120);
+}
+
 body{
-    background-color: black;
+    background-color: var(--color_main);
     color: white;
 }
 
-#loginField{
+
+
+#navigation{
     position: absolute;
-    width: 400px;
-    height: 300px;
-    top: 50%;
-    left: 50%;
-    transform: translateY(-50%) translateX(-50%);
-    background-image: linear-gradient(to bottom right, black, rgb(61, 6, 61));
-    border: 2px solid rgb(100, 100, 100);
-    border-radius: 20px;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 15%;
+    background-color: var(--color_interface);
+
+    box-shadow: 0px 0px 30px 50px var(--color_interface);
+
 }
 
-#loginUsername{
+#switchTheme{
     position: absolute;
-    width: 200px;
-    height: 30px;
-    top: 20%;
-    left: 50%;
-    transform: translateY(-50%) translateX(-50%);
-    background-color: black;
-    color: rgb(200, 200, 200);
-    border: 2px solid rgb(100, 10, 100);
-    outline: none;
-    box-shadow: 12px 12px 20px black;
-}
-#loginUsername:focus{
-    border: 3px solid rgb(150, 15, 150);
-}
-
-#loginPassword{
-    position: absolute;
-    width: 200px;
-    height: 30px;
-    top: 40%;
-    left: 50%;
-    transform: translateY(-50%) translateX(-50%);
-    background-color: black;
-    color: rgb(200, 200, 200);
-    border: 2px solid rgb(100, 10, 100);
-    outline: none;
-    box-shadow: 12px 12px 20px black;
-}
-#loginPassword:focus{
-    border: 3px solid rgb(150, 15, 150);
-}
-
-#loginSubmit{
-    position: absolute;
-    width: 100px;
+    bottom: 10px;
+    left: 10px;
     height: 50px;
-    top: 65%;
-    left: 50%;
-    transform: translateY(-50%) translateX(-50%);
-    color: rgb(200, 200, 200);
-    background-color: black;
-    border: 2px solid rgb(100, 10, 100);
-    box-shadow: 12px 12px 15px black;
+    width: 50px;
+    border-radius: 30%;
+    border: 2px solid var(--color_highlights);
+    background-color: var(--color_interface);
     cursor: pointer;
 }
 
-#loginSubmit:hover{
-    border: 3px solid rgb(150, 15, 150);
-}
-
-#loginError{
-    background-color: rgba(255, 255, 255, 0.3);
-    width: 270px;
-    height: 40px;
-    position: absolute;
-    top: 85%;
-    left: 50%;
-    transform: translateY(-50%) translateX(-50%);
-    color: black;
-    line-height: 0px;
-    text-align: center;
-    display: none;
+#switchTheme:hover{
+    background-color: var(--color_interface_light);
 }

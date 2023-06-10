@@ -20,7 +20,6 @@ fs.readFile("./data.json", "utf8", (error,data)=>{
 })
 
 app.post("/login", (req, res)=>{
-    console.log(req.body);
     let account = completeData.find((thisAccount)=>{return thisAccount.username == req.body.username});
     if(!account){
         res.status(401).json({"success": false, "error":"username", "reason": "account doesn't exist"});

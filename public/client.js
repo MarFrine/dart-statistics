@@ -1,6 +1,3 @@
-
-
-
 async function transferData(url, type, bodyData){
     if (type == "get") {
         const response = await fetch(url, {method:type})
@@ -15,6 +12,28 @@ async function transferData(url, type, bodyData){
         const data = await response.json()
         return data
     }
+}
+
+let currentTheme = "dark";
+function switchTheme(){
+    if(currentTheme == "dark"){
+        document.documentElement.style.setProperty("--color_main", "white");
+        document.documentElement.style.setProperty("--color_interface", "rgb(130, 130, 130)");
+        document.documentElement.style.setProperty("--color_interface_dark", "rgb(100,100,100)");
+        document.documentElement.style.setProperty("--color_interface_light", "rgb(180,180,180)");
+        document.documentElement.style.setProperty("--color_highlights", "rgb(0, 153, 51)");
+
+        currentTheme = "light";
+    } else {
+        document.documentElement.style.setProperty("--color_main", "black");
+        document.documentElement.style.setProperty("--color_interface", "rgb(49, 49, 49)");
+        document.documentElement.style.setProperty("--color_interface_dark", "rgb(25,25,25)");
+        document.documentElement.style.setProperty("--color_interface_light", "rgb(70,70,70)");
+        document.documentElement.style.setProperty("--color_highlights", "rgb(120, 20, 120)");
+
+        currentTheme = "dark"
+    }
+
 }
 
 function sendLoginData(event, formElement){
@@ -37,6 +56,7 @@ function sendLoginData(event, formElement){
 
             document.getElementById("loginError").style.display = "none";
             document.getElementById("loginField").style.display = "none";
+            document.getElementById("loginContentBlock").style.display = "none";
 
         }
     });
