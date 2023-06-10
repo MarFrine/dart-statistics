@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dart-Stats</title>
+    <link type="text/css" rel="stylesheet" href="./index.css">
+    <script src="./client.js" defer></script>
+</head>
+<body>
+    <div id="loginField">
+        <form onsubmit="sendLoginData(event, this)">
+            
+            <input id="loginUsername" type="text" maxlength="20" name="username" placeholder="username" required autofocus></input>
+            <input id="loginPassword" type="password" maxlength="20" name="password" placeholder="password" required></input>
+            <button id="loginSubmit" type="submit">Submit</button>
+        </form>
+        <div id="loginError"></div>
+    </div>
+</body>
+</html>

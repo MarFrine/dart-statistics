@@ -1,0 +1,82 @@
+body{
+    background-color: black;
+    color: white;
+}
+
+#loginField{
+    position: absolute;
+    width: 400px;
+    height: 300px;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    background-image: linear-gradient(to bottom right, black, rgb(61, 6, 61));
+    border: 2px solid rgb(100, 100, 100);
+    border-radius: 20px;
+}
+
+#loginUsername{
+    position: absolute;
+    width: 200px;
+    height: 30px;
+    top: 20%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    background-color: black;
+    color: rgb(200, 200, 200);
+    border: 2px solid rgb(100, 10, 100);
+    outline: none;
+    box-shadow: 12px 12px 20px black;
+}
+#loginUsername:focus{
+    border: 3px solid rgb(150, 15, 150);
+}
+
+#loginPassword{
+    position: absolute;
+    width: 200px;
+    height: 30px;
+    top: 40%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    background-color: black;
+    color: rgb(200, 200, 200);
+    border: 2px solid rgb(100, 10, 100);
+    outline: none;
+    box-shadow: 12px 12px 20px black;
+}
+#loginPassword:focus{
+    border: 3px solid rgb(150, 15, 150);
+}
+
+#loginSubmit{
+    position: absolute;
+    width: 100px;
+    height: 50px;
+    top: 65%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    color: rgb(200, 200, 200);
+    background-color: black;
+    border: 2px solid rgb(100, 10, 100);
+    box-shadow: 12px 12px 15px black;
+    cursor: pointer;
+}
+
+#loginSubmit:hover{
+    border: 3px solid rgb(150, 15, 150);
+}
+
+#loginError{
+    background-color: rgba(255, 255, 255, 0.3);
+    width: 270px;
+    height: 40px;
+    position: absolute;
+    top: 85%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    color: black;
+    line-height: 0px;
+    text-align: center;
+    display: none;
+}

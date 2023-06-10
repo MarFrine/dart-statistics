@@ -1,0 +1,92 @@
+[
+    {
+        "username": "test",
+        "password": "1234",
+
+        "data": {
+            "people": [
+                {
+                    "name": "person1",
+                    "gamesPlayed": 1,
+                    "avgPlace": 2,
+                    "FirstPlace": 1
+                },
+                {
+                    "name": "person2",
+                    "gamesPlayed": 1,
+                    "avgPlace": 1,
+                    "FirstPlace": 2
+                },
+                {
+                    "name": "person3",
+                    "gamesPlayed": 1,
+                    "avgPlace": 3,
+                    "FirstPlace": 0
+                }
+            ],
+            "games": [
+                {
+                    "date": "10.06.2023",
+                    "player": [
+                        "person1",
+                        "person2",
+                        "person3"
+                    ],
+                    "type": {
+                        "name": "n-rounds",
+                        "throwsPerRound": 3,
+                        "n": 10,
+                        "doubleIn": false,
+                        "doubleOut": false
+                    },
+                    "scores": {
+                        "round1": {
+                            "person1":{
+                                "throw1":{
+                                    "field": "3x20",
+                                    "score": 60
+                                },
+                                "throw2":{
+                                    "field": "2x20",
+                                    "score": 40
+                                },
+                                "throw3":{
+                                    "field": "3x1",
+                                    "score": 3
+                                }
+                            },
+                            "person2":{
+                                "throw1":{
+                                    "field": "2x14",
+                                    "score": 28
+                                },
+                                "throw2":{
+                                    "field": "1x16",
+                                    "score": 16
+                                },
+                                "throw3":{
+                                    "field": "1x50",
+                                    "score": 50
+                                }
+                            },
+                            "person3":{
+                                "throw1":{
+                                    "field": "1x17",
+                                    "score": 17
+                                },
+                                "throw2":{
+                                    "field": "3x15",
+                                    "score": 45
+                                },
+                                "throw3":{
+                                    "field": "2x20",
+                                    "score": 40
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    }
+]
