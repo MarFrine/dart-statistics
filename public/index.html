@@ -7,6 +7,9 @@
     <link type="text/css" rel="stylesheet" href="./index.css">
     <link type="text/css" rel="stylesheet" href="./login.css">
     <script src="./client.js" defer></script>
+    <script src="./game.js" defer></script>
+    <script src="./person.js" defer></script>
+    <script src="./dartboardInput.js" defer></script>
 </head>
 <body>
     <div id="loginContentBlock">
@@ -24,24 +27,194 @@
 
 
     <div id="navigation">
-        <div>Hauptmenü</div>
+        <button onclick="changeMenuPoint('mainMenu')">Hauptmenü</button>
+        <button onclick="changeMenuPoint('gameOverview')">Spiel</button>
+        <button onclick="changeMenuPoint('createGame')">Spiel:erstellen</button>
+        <button onclick="changeMenuPoint('inputGame')">Spiel:eintragen</button>
+        <button onclick="changeMenuPoint('watchGame')">Spiel:anschauen</button>
         <button id="switchTheme" onclick="switchTheme()">
-            <img src="img/icons8-tag-und-nacht-100.png" width="100%" height="100%">
+            <img id="themeImage" src="img/dark.png" width="100%" height="100%">
         </button>
     </div>
 
-    <div id="mainMenu"></div>
-    <div id="game">
-        
-
-        <div id="dartboard-input">
-            <svg id="inputBoard" width="500" height="500">
-
-                    
-
-                
-            </svg>
+    <div class="mainMenuPoint" id="mainMenu"></div>
+    <div class="mainMenuPoint" id="game">
+        <div class="mainMenuPoint gameSubpoint" id="gameOverview">
+            <div>no current game -> create a new game</div>
+            <div>ongoing game -> watch or input</div>
         </div>
-    </div>
-</body>
+        <div class="mainMenuPoint gameSubpoint" id="createGame">
+            <form onsubmit="createNewGame(event, this)">
+                player: [] <input type="button" value="add player"><br>
+                -----<br>
+                <input type="radio" id="xThrows" name="gameType" value="xThrows">
+                <label for="xThrows">x-Throws</label><br>
+                <input type="radio" id="firstToX" name="gameType" value="firstToX">
+                <label for="firstToX">firstToX</label><br>
+                -----<br>
+                <input type="checkbox" id="doubleIn" name="gameRules" value="doubleIn">
+                <label for="doubleIn">doubleIn</label><br>
+                <input type="checkbox" id="doubleOut" name="gameRules" value="doubleOut">
+                <label for="doubleOut">doubleOut</label><br>
+                <input type="checkbox" id="teams" name="gameRules" value="teams">
+                <label for="teams">teams</label><br>
+            </form>
+        </div>
+        <div class="mainMenuPoint gameSubpoint" id="watchGame">
+        
+        </div>
+        <div class="mainMenuPoint gameSubpoint" id="inputGame">
+            <div id="tableInput">
+                <svg id="inputTableHead" width="660" height="150">
+                    <g transform="scale(1.4 1.4)">
+                        <g>
+                            <a class="dartboardButton" id="field_2x201"><path d="M385.8913837,38.077914851 A250,250 0 0 1 464.1086163,38.077914851 L459.4155823,67.70856507 A220,220 0 0 0 390.5844177,67.70856507 L385.8913837,38.077914851" style="fill: #9E170D;"/></a>
+                            <a class="dartboardButton" id="field_1x201_outer1"><path d="M300.5844177,20.70856507 A220,220 0 0 1 369.4155823,20.70856507 L359.2473421,84.90830721 A155,155 0 0 0 310.7526579,84.90830721 L300.5844177,20.70856507" style="fill: #000000;"/></a>
+                            <a class="dartboardButton" id="field_3x201"><path d="M230.7526579,36.90830721 A155,155 0 0 1 279.2473421,36.90830721 L274.55430813,66.5389574 A125,125 0 0 0 235.4456919,66.5389574 L230.7526579,36.90830721" style="fill: #9E170D;"/></a>
+                            <a class="dartboardButton" id="field_1x20_inner1"><path d="M135.4456919,11.5389574 A125,125 0 0 1 174.55430813,11.5389574 L159.693033951,105.3693498 A30,30 0 0 0 150.306966,105.3693498 L135.4456919,11.5389574" style="fill: #000000;"/></a>
+                        </g>
+                        <g>
+                            <a class="dartboardButton" id="field_2x202"><circle cx="70" cy="50" r="20"
+                                style="stroke: #1D7502; stroke-width: 17; fill: transparent;"/></a>
+                        </g>
+                        <g>
+                            <a class="dartboardButton" id="field_2x203"><circle cx="20" cy="50" r="13"
+                                style="fill: #9E170D;"/>
+                        </g>
+                    </g>
+                </svg>
+            </div>
+            <div id="dartboardInput">
+                <svg id="inputBoard" width="510" height="510">
+                    <g transform="scale(1.4 1.4)">
+                        <g>
+                            <a class="dartboardButton" id="field_2x20"><path d="M215.8913837,8.077914851 A250,250 0 0 1 294.1086163,8.077914851 L289.4155823,37.70856507 A220,220 0 0 0 220.5844177,37.70856507 L215.8913837,8.077914851" style="stroke: #FFFFFF; stroke-width: 2; fill: #9E170D;"/></a>
+                            <a class="dartboardButton" id="field_1x20_outer"><path d="M220.5844177,37.70856507 A220,220 0 0 1 289.4155823,37.70856507 L279.2473421,101.90830721 A155,155 0 0 0 230.7526579,101.90830721 L220.5844177,37.70856507" style="stroke: #FFFFFF; stroke-width: 2; fill: #000000;"/></a>
+                            <a class="dartboardButton" id="field_3x20"><path d="M230.7526579,101.90830721 A155,155 0 0 1 279.2473421,101.90830721 L274.55430813,131.5389574 A125,125 0 0 0 235.4456919,131.5389574 L230.7526579,101.90830721" style="stroke: #FFFFFF; stroke-width: 2; fill: #9E170D;"/></a>
+                            <a class="dartboardButton" id="field_1x20_inner"><path d="M235.4456919,131.5389574 A125,125 0 0 1 274.55430813,131.5389574 L259.693033951,225.3693498 A30,30 0 0 0 250.306966,225.3693498 L235.4456919,131.5389574" style="stroke: #FFFFFF; stroke-width: 2; fill: #000000;"/></a>
+                        </g>
+                        <g transform="rotate(18 255 255)">
+                            <a class="dartboardButton" id="field_2x1"><path d="M215.8913837,8.077914851 A250,250 0 0 1 294.1086163,8.077914851 L289.4155823,37.70856507 A220,220 0 0 0 220.5844177,37.70856507 L215.8913837,8.077914851" style="stroke: #FFFFFF; stroke-width: 2; fill: #1D7502;"/></a>
+                            <a class="dartboardButton" id="field_1x1_outer"><path d="M220.5844177,37.70856507 A220,220 0 0 1 289.4155823,37.70856507 L279.2473421,101.90830721 A155,155 0 0 0 230.7526579,101.90830721 L220.5844177,37.70856507" style="stroke: #FFFFFF; stroke-width: 2; fill: #f5deb3;"/></a>
+                            <a class="dartboardButton" id="field_3x1"><path d="M230.7526579,101.90830721 A155,155 0 0 1 279.2473421,101.90830721 L274.55430813,131.5389574 A125,125 0 0 0 235.4456919,131.5389574 L230.7526579,101.90830721" style="stroke: #FFFFFF; stroke-width: 2; fill: #1D7502;"/></a>
+                            <a class="dartboardButton" id="field_1x1_inner"><path d="M235.4456919,131.5389574 A125,125 0 0 1 274.55430813,131.5389574 L259.693033951,225.3693498 A30,30 0 0 0 250.306966,225.3693498 L235.4456919,131.5389574" style="stroke: #FFFFFF; stroke-width: 2; fill: #f5deb3;"/></a>
+                        </g>
+                        <g transform="rotate(36 255 255)">
+                          <a class="dartboardButton" id="field_2x18"><path d="M215.8913837,8.077914851 A250,250 0 0 1 294.1086163,8.077914851 L289.4155823,37.70856507 A220,220 0 0 0 220.5844177,37.70856507 L215.8913837,8.077914851" style="stroke: #FFFFFF; stroke-width: 2; fill: #9E170D;"/></a>
+                          <a class="dartboardButton" id="field_1x18_outer"><path d="M220.5844177,37.70856507 A220,220 0 0 1 289.4155823,37.70856507 L279.2473421,101.90830721 A155,155 0 0 0 230.7526579,101.90830721 L220.5844177,37.70856507" style="stroke: #FFFFFF; stroke-width: 2; fill: #000000;"/></a>
+                          <a class="dartboardButton" id="field_3x18"><path d="M230.7526579,101.90830721 A155,155 0 0 1 279.2473421,101.90830721 L274.55430813,131.5389574 A125,125 0 0 0 235.4456919,131.5389574 L230.7526579,101.90830721" style="stroke: #FFFFFF; stroke-width: 2; fill: #9E170D;"/></a>
+                          <a class="dartboardButton" id="field_1x18_inner"><path d="M235.4456919,131.5389574 A125,125 0 0 1 274.55430813,131.5389574 L259.693033951,225.3693498 A30,30 0 0 0 250.306966,225.3693498 L235.4456919,131.5389574" style="stroke: #FFFFFF; stroke-width: 2; fill: #000000;"/></a>
+                        </g>
+                        <g transform="rotate(54 255 255)">
+                          <a class="dartboardButton" id="field_2x4"><path d="M215.8913837,8.077914851 A250,250 0 0 1 294.1086163,8.077914851 L289.4155823,37.70856507 A220,220 0 0 0 220.5844177,37.70856507 L215.8913837,8.077914851" style="stroke: #FFFFFF; stroke-width: 2; fill: #1D7502;"/></a>
+                          <a class="dartboardButton" id="field_1x4_outer"><path d="M220.5844177,37.70856507 A220,220 0 0 1 289.4155823,37.70856507 L279.2473421,101.90830721 A155,155 0 0 0 230.7526579,101.90830721 L220.5844177,37.70856507" style="stroke: #FFFFFF; stroke-width: 2; fill: #f5deb3;"/></a>
+                          <a class="dartboardButton" id="field_3x4"><path d="M230.7526579,101.90830721 A155,155 0 0 1 279.2473421,101.90830721 L274.55430813,131.5389574 A125,125 0 0 0 235.4456919,131.5389574 L230.7526579,101.90830721" style="stroke: #FFFFFF; stroke-width: 2; fill: #1D7502;"/></a>
+                          <a class="dartboardButton" id="field_1x4_inner"><path d="M235.4456919,131.5389574 A125,125 0 0 1 274.55430813,131.5389574 L259.693033951,225.3693498 A30,30 0 0 0 250.306966,225.3693498 L235.4456919,131.5389574" style="stroke: #FFFFFF; stroke-width: 2; fill: #f5deb3;"/></a>
+                        </g>
+                        <g transform="rotate(72 255 255)">
+                          <a class="dartboardButton" id="field_2x13"><path d="M215.8913837,8.077914851 A250,250 0 0 1 294.1086163,8.077914851 L289.4155823,37.70856507 A220,220 0 0 0 220.5844177,37.70856507 L215.8913837,8.077914851" style="stroke: #FFFFFF; stroke-width: 2; fill: #9E170D;"/></a>
+                          <a class="dartboardButton" id="field_1x13_outer"><path d="M220.5844177,37.70856507 A220,220 0 0 1 289.4155823,37.70856507 L279.2473421,101.90830721 A155,155 0 0 0 230.7526579,101.90830721 L220.5844177,37.70856507" style="stroke: #FFFFFF; stroke-width: 2; fill: #000000;"/></a>
+                          <a class="dartboardButton" id="field_3x13"><path d="M230.7526579,101.90830721 A155,155 0 0 1 279.2473421,101.90830721 L274.55430813,131.5389574 A125,125 0 0 0 235.4456919,131.5389574 L230.7526579,101.90830721" style="stroke: #FFFFFF; stroke-width: 2; fill: #9E170D;"/></a>
+                          <a class="dartboardButton" id="field_1x13_inner"><path d="M235.4456919,131.5389574 A125,125 0 0 1 274.55430813,131.5389574 L259.693033951,225.3693498 A30,30 0 0 0 250.306966,225.3693498 L235.4456919,131.5389574" style="stroke: #FFFFFF; stroke-width: 2; fill: #000000;"/></a>
+                        </g>
+                        <g transform="rotate(90 255 255)">
+                          <a class="dartboardButton" id="field_2x6"><path d="M215.8913837,8.077914851 A250,250 0 0 1 294.1086163,8.077914851 L289.4155823,37.70856507 A220,220 0 0 0 220.5844177,37.70856507 L215.8913837,8.077914851" style="stroke: #FFFFFF; stroke-width: 2; fill: #1D7502;"/></a>
+                          <a class="dartboardButton" id="field_1x6_outer"><path d="M220.5844177,37.70856507 A220,220 0 0 1 289.4155823,37.70856507 L279.2473421,101.90830721 A155,155 0 0 0 230.7526579,101.90830721 L220.5844177,37.70856507" style="stroke: #FFFFFF; stroke-width: 2; fill: #f5deb3;"/></a>
+                          <a class="dartboardButton" id="field_3x6"><path d="M230.7526579,101.90830721 A155,155 0 0 1 279.2473421,101.90830721 L274.55430813,131.5389574 A125,125 0 0 0 235.4456919,131.5389574 L230.7526579,101.90830721" style="stroke: #FFFFFF; stroke-width: 2; fill: #1D7502;"/></a>
+                          <a class="dartboardButton" id="field_1x6_inner"><path d="M235.4456919,131.5389574 A125,125 0 0 1 274.55430813,131.5389574 L259.693033951,225.3693498 A30,30 0 0 0 250.306966,225.3693498 L235.4456919,131.5389574" style="stroke: #FFFFFF; stroke-width: 2; fill: #f5deb3;"/></a>
+                        </g>
+                        <g transform="rotate(108 255 255)">
+                          <a class="dartboardButton" id="field_2x10"><path d="M215.8913837,8.077914851 A250,250 0 0 1 294.1086163,8.077914851 L289.4155823,37.70856507 A220,220 0 0 0 220.5844177,37.70856507 L215.8913837,8.077914851" style="stroke: #FFFFFF; stroke-width: 2; fill: #9E170D;"/></a>
+                          <a class="dartboardButton" id="field_1x10_outer"><path d="M220.5844177,37.70856507 A220,220 0 0 1 289.4155823,37.70856507 L279.2473421,101.90830721 A155,155 0 0 0 230.7526579,101.90830721 L220.5844177,37.70856507" style="stroke: #FFFFFF; stroke-width: 2; fill: #000000;"/></a>
+                          <a class="dartboardButton" id="field_3x10"><path d="M230.7526579,101.90830721 A155,155 0 0 1 279.2473421,101.90830721 L274.55430813,131.5389574 A125,125 0 0 0 235.4456919,131.5389574 L230.7526579,101.90830721" style="stroke: #FFFFFF; stroke-width: 2; fill: #9E170D;"/></a>
+                          <a class="dartboardButton" id="field_1x10_inner"><path d="M235.4456919,131.5389574 A125,125 0 0 1 274.55430813,131.5389574 L259.693033951,225.3693498 A30,30 0 0 0 250.306966,225.3693498 L235.4456919,131.5389574" style="stroke: #FFFFFF; stroke-width: 2; fill: #000000;"/></a>
+                        </g>
+                        <g transform="rotate(126 255 255)">
+                          <a class="dartboardButton" id="field_2x15"><path d="M215.8913837,8.077914851 A250,250 0 0 1 294.1086163,8.077914851 L289.4155823,37.70856507 A220,220 0 0 0 220.5844177,37.70856507 L215.8913837,8.077914851" style="stroke: #FFFFFF; stroke-width: 2; fill: #1D7502;"/></a>
+                          <a class="dartboardButton" id="field_1x15_outer"><path d="M220.5844177,37.70856507 A220,220 0 0 1 289.4155823,37.70856507 L279.2473421,101.90830721 A155,155 0 0 0 230.7526579,101.90830721 L220.5844177,37.70856507" style="stroke: #FFFFFF; stroke-width: 2; fill: #f5deb3;"/></a>
+                          <a class="dartboardButton" id="field_3x15"><path d="M230.7526579,101.90830721 A155,155 0 0 1 279.2473421,101.90830721 L274.55430813,131.5389574 A125,125 0 0 0 235.4456919,131.5389574 L230.7526579,101.90830721" style="stroke: #FFFFFF; stroke-width: 2; fill: #1D7502;"/></a>
+                          <a class="dartboardButton" id="field_1x15_inner"><path d="M235.4456919,131.5389574 A125,125 0 0 1 274.55430813,131.5389574 L259.693033951,225.3693498 A30,30 0 0 0 250.306966,225.3693498 L235.4456919,131.5389574" style="stroke: #FFFFFF; stroke-width: 2; fill: #f5deb3;"/></a>
+                        </g>
+                        <g transform="rotate(144 255 255)">
+                          <a class="dartboardButton" id="field_2x2"><path d="M215.8913837,8.077914851 A250,250 0 0 1 294.1086163,8.077914851 L289.4155823,37.70856507 A220,220 0 0 0 220.5844177,37.70856507 L215.8913837,8.077914851" style="stroke: #FFFFFF; stroke-width: 2; fill: #9E170D;"/></a>
+                          <a class="dartboardButton" id="field_1x2_outer"><path d="M220.5844177,37.70856507 A220,220 0 0 1 289.4155823,37.70856507 L279.2473421,101.90830721 A155,155 0 0 0 230.7526579,101.90830721 L220.5844177,37.70856507" style="stroke: #FFFFFF; stroke-width: 2; fill: #000000;"/></a>
+                          <a class="dartboardButton" id="field_3x2"><path d="M230.7526579,101.90830721 A155,155 0 0 1 279.2473421,101.90830721 L274.55430813,131.5389574 A125,125 0 0 0 235.4456919,131.5389574 L230.7526579,101.90830721" style="stroke: #FFFFFF; stroke-width: 2; fill: #9E170D;"/></a>
+                          <a class="dartboardButton" id="field_1x2_inner"><path d="M235.4456919,131.5389574 A125,125 0 0 1 274.55430813,131.5389574 L259.693033951,225.3693498 A30,30 0 0 0 250.306966,225.3693498 L235.4456919,131.5389574" style="stroke: #FFFFFF; stroke-width: 2; fill: #000000;"/></a>
+                        </g>
+                        <g transform="rotate(162 255 255)">
+                          <a class="dartboardButton" id="field_2x17"><path d="M215.8913837,8.077914851 A250,250 0 0 1 294.1086163,8.077914851 L289.4155823,37.70856507 A220,220 0 0 0 220.5844177,37.70856507 L215.8913837,8.077914851" style="stroke: #FFFFFF; stroke-width: 2; fill: #1D7502;"/></a>
+                          <a class="dartboardButton" id="field_1x17_outer"><path d="M220.5844177,37.70856507 A220,220 0 0 1 289.4155823,37.70856507 L279.2473421,101.90830721 A155,155 0 0 0 230.7526579,101.90830721 L220.5844177,37.70856507" style="stroke: #FFFFFF; stroke-width: 2; fill: #f5deb3;"/></a>
+                          <a class="dartboardButton" id="field_3x17"><path d="M230.7526579,101.90830721 A155,155 0 0 1 279.2473421,101.90830721 L274.55430813,131.5389574 A125,125 0 0 0 235.4456919,131.5389574 L230.7526579,101.90830721" style="stroke: #FFFFFF; stroke-width: 2; fill: #1D7502;"/></a>
+                          <a class="dartboardButton" id="field_1x17_inner"><path d="M235.4456919,131.5389574 A125,125 0 0 1 274.55430813,131.5389574 L259.693033951,225.3693498 A30,30 0 0 0 250.306966,225.3693498 L235.4456919,131.5389574" style="stroke: #FFFFFF; stroke-width: 2; fill: #f5deb3;"/></a>
+                        </g>
+                        <g transform="rotate(180 255 255)">
+                          <a class="dartboardButton" id="field_2x3"><path d="M215.8913837,8.077914851 A250,250 0 0 1 294.1086163,8.077914851 L289.4155823,37.70856507 A220,220 0 0 0 220.5844177,37.70856507 L215.8913837,8.077914851" style="stroke: #FFFFFF; stroke-width: 2; fill: #9E170D;"/></a>
+                          <a class="dartboardButton" id="field_1x3_outer"><path d="M220.5844177,37.70856507 A220,220 0 0 1 289.4155823,37.70856507 L279.2473421,101.90830721 A155,155 0 0 0 230.7526579,101.90830721 L220.5844177,37.70856507" style="stroke: #FFFFFF; stroke-width: 2; fill: #000000;"/></a>
+                          <a class="dartboardButton" id="field_3x3"><path d="M230.7526579,101.90830721 A155,155 0 0 1 279.2473421,101.90830721 L274.55430813,131.5389574 A125,125 0 0 0 235.4456919,131.5389574 L230.7526579,101.90830721" style="stroke: #FFFFFF; stroke-width: 2; fill: #9E170D;"/></a>
+                          <a class="dartboardButton" id="field_1x3_inner"><path d="M235.4456919,131.5389574 A125,125 0 0 1 274.55430813,131.5389574 L259.693033951,225.3693498 A30,30 0 0 0 250.306966,225.3693498 L235.4456919,131.5389574" style="stroke: #FFFFFF; stroke-width: 2; fill: #000000;"/></a>
+                        </g>
+                        <g transform="rotate(198 255 255)">
+                          <a class="dartboardButton" id="field_2x19"><path d="M215.8913837,8.077914851 A250,250 0 0 1 294.1086163,8.077914851 L289.4155823,37.70856507 A220,220 0 0 0 220.5844177,37.70856507 L215.8913837,8.077914851" style="stroke: #FFFFFF; stroke-width: 2; fill: #1D7502;"/></a>
+                          <a class="dartboardButton" id="field_1x19_outer"><path d="M220.5844177,37.70856507 A220,220 0 0 1 289.4155823,37.70856507 L279.2473421,101.90830721 A155,155 0 0 0 230.7526579,101.90830721 L220.5844177,37.70856507" style="stroke: #FFFFFF; stroke-width: 2; fill: #f5deb3;"/></a>
+                          <a class="dartboardButton" id="field_3x19"><path d="M230.7526579,101.90830721 A155,155 0 0 1 279.2473421,101.90830721 L274.55430813,131.5389574 A125,125 0 0 0 235.4456919,131.5389574 L230.7526579,101.90830721" style="stroke: #FFFFFF; stroke-width: 2; fill: #1D7502;"/></a>
+                          <a class="dartboardButton" id="field_1x19_inner"><path d="M235.4456919,131.5389574 A125,125 0 0 1 274.55430813,131.5389574 L259.693033951,225.3693498 A30,30 0 0 0 250.306966,225.3693498 L235.4456919,131.5389574" style="stroke: #FFFFFF; stroke-width: 2; fill: #f5deb3;"/></a>
+                        </g>
+                        <g transform="rotate(216 255 255)">
+                          <a class="dartboardButton" id="field_2x7"><path d="M215.8913837,8.077914851 A250,250 0 0 1 294.1086163,8.077914851 L289.4155823,37.70856507 A220,220 0 0 0 220.5844177,37.70856507 L215.8913837,8.077914851" style="stroke: #FFFFFF; stroke-width: 2; fill: #9E170D;"/></a>
+                          <a class="dartboardButton" id="field_1x7_outer"><path d="M220.5844177,37.70856507 A220,220 0 0 1 289.4155823,37.70856507 L279.2473421,101.90830721 A155,155 0 0 0 230.7526579,101.90830721 L220.5844177,37.70856507" style="stroke: #FFFFFF; stroke-width: 2; fill: #000000;"/></a>
+                          <a class="dartboardButton" id="field_3x7"><path d="M230.7526579,101.90830721 A155,155 0 0 1 279.2473421,101.90830721 L274.55430813,131.5389574 A125,125 0 0 0 235.4456919,131.5389574 L230.7526579,101.90830721" style="stroke: #FFFFFF; stroke-width: 2; fill: #9E170D;"/></a>
+                          <a class="dartboardButton" id="field_1x7_inner"><path d="M235.4456919,131.5389574 A125,125 0 0 1 274.55430813,131.5389574 L259.693033951,225.3693498 A30,30 0 0 0 250.306966,225.3693498 L235.4456919,131.5389574" style="stroke: #FFFFFF; stroke-width: 2; fill: #000000;"/></a>
+                        </g>
+                        <g transform="rotate(234 255 255)">
+                          <a class="dartboardButton" id="field_2x16"><path d="M215.8913837,8.077914851 A250,250 0 0 1 294.1086163,8.077914851 L289.4155823,37.70856507 A220,220 0 0 0 220.5844177,37.70856507 L215.8913837,8.077914851" style="stroke: #FFFFFF; stroke-width: 2; fill: #1D7502;"/></a>
+                          <a class="dartboardButton" id="field_1x16_outer"><path d="M220.5844177,37.70856507 A220,220 0 0 1 289.4155823,37.70856507 L279.2473421,101.90830721 A155,155 0 0 0 230.7526579,101.90830721 L220.5844177,37.70856507" style="stroke: #FFFFFF; stroke-width: 2; fill: #f5deb3;"/></a>
+                          <a class="dartboardButton" id="field_3x16"><path d="M230.7526579,101.90830721 A155,155 0 0 1 279.2473421,101.90830721 L274.55430813,131.5389574 A125,125 0 0 0 235.4456919,131.5389574 L230.7526579,101.90830721" style="stroke: #FFFFFF; stroke-width: 2; fill: #1D7502;"/></a>
+                          <a class="dartboardButton" id="field_1x16_inner"><path d="M235.4456919,131.5389574 A125,125 0 0 1 274.55430813,131.5389574 L259.693033951,225.3693498 A30,30 0 0 0 250.306966,225.3693498 L235.4456919,131.5389574" style="stroke: #FFFFFF; stroke-width: 2; fill: #f5deb3;"/></a>
+                        </g>
+                        <g transform="rotate(252 255 255)">
+                          <a class="dartboardButton" id="field_2x8"><path d="M215.8913837,8.077914851 A250,250 0 0 1 294.1086163,8.077914851 L289.4155823,37.70856507 A220,220 0 0 0 220.5844177,37.70856507 L215.8913837,8.077914851" style="stroke: #FFFFFF; stroke-width: 2; fill: #9E170D;"/></a>
+                          <a class="dartboardButton" id="field_1x8_outer"><path d="M220.5844177,37.70856507 A220,220 0 0 1 289.4155823,37.70856507 L279.2473421,101.90830721 A155,155 0 0 0 230.7526579,101.90830721 L220.5844177,37.70856507" style="stroke: #FFFFFF; stroke-width: 2; fill: #000000;"/></a>
+                          <a class="dartboardButton" id="field_3x8"><path d="M230.7526579,101.90830721 A155,155 0 0 1 279.2473421,101.90830721 L274.55430813,131.5389574 A125,125 0 0 0 235.4456919,131.5389574 L230.7526579,101.90830721" style="stroke: #FFFFFF; stroke-width: 2; fill: #9E170D;"/></a>
+                          <a class="dartboardButton" id="field_1x8_inner"><path d="M235.4456919,131.5389574 A125,125 0 0 1 274.55430813,131.5389574 L259.693033951,225.3693498 A30,30 0 0 0 250.306966,225.3693498 L235.4456919,131.5389574" style="stroke: #FFFFFF; stroke-width: 2; fill: #000000;"/></a>
+                        </g>
+                        <g transform="rotate(270 255 255)">
+                          <a class="dartboardButton" id="field_2x11"><path d="M215.8913837,8.077914851 A250,250 0 0 1 294.1086163,8.077914851 L289.4155823,37.70856507 A220,220 0 0 0 220.5844177,37.70856507 L215.8913837,8.077914851" style="stroke: #FFFFFF; stroke-width: 2; fill: #1D7502;"/></a>
+                          <a class="dartboardButton" id="field_1x11_outer"><path d="M220.5844177,37.70856507 A220,220 0 0 1 289.4155823,37.70856507 L279.2473421,101.90830721 A155,155 0 0 0 230.7526579,101.90830721 L220.5844177,37.70856507" style="stroke: #FFFFFF; stroke-width: 2; fill: #f5deb3;"/></a>
+                          <a class="dartboardButton" id="field_3x11"><path d="M230.7526579,101.90830721 A155,155 0 0 1 279.2473421,101.90830721 L274.55430813,131.5389574 A125,125 0 0 0 235.4456919,131.5389574 L230.7526579,101.90830721" style="stroke: #FFFFFF; stroke-width: 2; fill: #1D7502;"/></a>
+                          <a class="dartboardButton" id="field_1x11_inner"><path d="M235.4456919,131.5389574 A125,125 0 0 1 274.55430813,131.5389574 L259.693033951,225.3693498 A30,30 0 0 0 250.306966,225.3693498 L235.4456919,131.5389574" style="stroke: #FFFFFF; stroke-width: 2; fill: #f5deb3;"/></a>
+                        </g>
+                        <g transform="rotate(288 255 255)">
+                          <a class="dartboardButton" id="field_2x14"><path d="M215.8913837,8.077914851 A250,250 0 0 1 294.1086163,8.077914851 L289.4155823,37.70856507 A220,220 0 0 0 220.5844177,37.70856507 L215.8913837,8.077914851" style="stroke: #FFFFFF; stroke-width: 2; fill: #9E170D;"/></a>
+                          <a class="dartboardButton" id="field_1x14_outer"><path d="M220.5844177,37.70856507 A220,220 0 0 1 289.4155823,37.70856507 L279.2473421,101.90830721 A155,155 0 0 0 230.7526579,101.90830721 L220.5844177,37.70856507" style="stroke: #FFFFFF; stroke-width: 2; fill: #000000;"/></a>
+                          <a class="dartboardButton" id="field_3x14"><path d="M230.7526579,101.90830721 A155,155 0 0 1 279.2473421,101.90830721 L274.55430813,131.5389574 A125,125 0 0 0 235.4456919,131.5389574 L230.7526579,101.90830721" style="stroke: #FFFFFF; stroke-width: 2; fill: #9E170D;"/></a>
+                          <a class="dartboardButton" id="field_1x14_inner"><path d="M235.4456919,131.5389574 A125,125 0 0 1 274.55430813,131.5389574 L259.693033951,225.3693498 A30,30 0 0 0 250.306966,225.3693498 L235.4456919,131.5389574" style="stroke: #FFFFFF; stroke-width: 2; fill: #000000;"/></a>
+                        </g>
+                        <g transform="rotate(306 255 255)">
+                          <a class="dartboardButton" id="field_2x9"><path d="M215.8913837,8.077914851 A250,250 0 0 1 294.1086163,8.077914851 L289.4155823,37.70856507 A220,220 0 0 0 220.5844177,37.70856507 L215.8913837,8.077914851" style="stroke: #FFFFFF; stroke-width: 2; fill: #1D7502;"/></a>
+                          <a class="dartboardButton" id="field_1x9_outer"><path d="M220.5844177,37.70856507 A220,220 0 0 1 289.4155823,37.70856507 L279.2473421,101.90830721 A155,155 0 0 0 230.7526579,101.90830721 L220.5844177,37.70856507" style="stroke: #FFFFFF; stroke-width: 2; fill: #f5deb3;"/></a>
+                          <a class="dartboardButton" id="field_3x9"><path d="M230.7526579,101.90830721 A155,155 0 0 1 279.2473421,101.90830721 L274.55430813,131.5389574 A125,125 0 0 0 235.4456919,131.5389574 L230.7526579,101.90830721" style="stroke: #FFFFFF; stroke-width: 2; fill: #1D7502;"/></a>
+                          <a class="dartboardButton" id="field_1x9_inner"><path d="M235.4456919,131.5389574 A125,125 0 0 1 274.55430813,131.5389574 L259.693033951,225.3693498 A30,30 0 0 0 250.306966,225.3693498 L235.4456919,131.5389574" style="stroke: #FFFFFF; stroke-width: 2; fill: #f5deb3;"/></a>
+                        </g>
+                        <g transform="rotate(324 255 255)">
+                          <a class="dartboardButton" id="field_2x12"><path d="M215.8913837,8.077914851 A250,250 0 0 1 294.1086163,8.077914851 L289.4155823,37.70856507 A220,220 0 0 0 220.5844177,37.70856507 L215.8913837,8.077914851" style="stroke: #FFFFFF; stroke-width: 2; fill: #9E170D;"/></a>
+                          <a class="dartboardButton" id="field_1x12_outer"><path d="M220.5844177,37.70856507 A220,220 0 0 1 289.4155823,37.70856507 L279.2473421,101.90830721 A155,155 0 0 0 230.7526579,101.90830721 L220.5844177,37.70856507" style="stroke: #FFFFFF; stroke-width: 2; fill: #000000;"/></a>
+                          <a class="dartboardButton" id="field_3x12"><path d="M230.7526579,101.90830721 A155,155 0 0 1 279.2473421,101.90830721 L274.55430813,131.5389574 A125,125 0 0 0 235.4456919,131.5389574 L230.7526579,101.90830721" style="stroke: #FFFFFF; stroke-width: 2; fill: #9E170D;"/></a>
+                          <a class="dartboardButton" id="field_1x12_inner"><path d="M235.4456919,131.5389574 A125,125 0 0 1 274.55430813,131.5389574 L259.693033951,225.3693498 A30,30 0 0 0 250.306966,225.3693498 L235.4456919,131.5389574" style="stroke: #FFFFFF; stroke-width: 2; fill: #000000;"/></a>
+                        </g>
+                        <g transform="rotate(342 255 255)">
+                          <a class="dartboardButton" id="field_2x5"><path d="M215.8913837,8.077914851 A250,250 0 0 1 294.1086163,8.077914851 L289.4155823,37.70856507 A220,220 0 0 0 220.5844177,37.70856507 L215.8913837,8.077914851" style="stroke: #FFFFFF; stroke-width: 2; fill: #1D7502;"/></a>
+                          <a class="dartboardButton" id="field_1x5_outer"><path d="M220.5844177,37.70856507 A220,220 0 0 1 289.4155823,37.70856507 L279.2473421,101.90830721 A155,155 0 0 0 230.7526579,101.90830721 L220.5844177,37.70856507" style="stroke: #FFFFFF; stroke-width: 2; fill: #f5deb3;"/></a>
+                          <a class="dartboardButton" id="field_3x5"><path d="M230.7526579,101.90830721 A155,155 0 0 1 279.2473421,101.90830721 L274.55430813,131.5389574 A125,125 0 0 0 235.4456919,131.5389574 L230.7526579,101.90830721" style="stroke: #FFFFFF; stroke-width: 2; fill: #1D7502;"/></a>
+                          <a class="dartboardButton" id="field_1x5_inner"><path d="M235.4456919,131.5389574 A125,125 0 0 1 274.55430813,131.5389574 L259.693033951,225.3693498 A30,30 0 0 0 250.306966,225.3693498 L235.4456919,131.5389574" style="stroke: #FFFFFF; stroke-width: 2; fill: #f5deb3;"/></a>
+                        </g>
+                        <a class="dartboardButton" id="field_25"><circle cx="255" cy="255" r="30"
+                            style="stroke: #FFFFFF; stroke-width: 2; fill: #1D7502;"/></a>
+                        <a class="dartboardButton" id="field_50"><circle cx="255" cy="255" r="13"
+                            style="stroke: #FFFFFF; stroke-width: 2; fill: #9E170D;"/></a>
+                    </g>
+                </svg>
+            </div>
+            <button id="switchInputType" onclick="switchInputType()"></button>
+        </div>
+    </body>
 </html>

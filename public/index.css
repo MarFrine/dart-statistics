@@ -43,6 +43,7 @@ body{
 
 
 #game{
+    display: none;
     position: absolute;
     right: 0;
     top: 0;
@@ -51,14 +52,73 @@ body{
     background-color: var(--color_main);
 }
 
-#dartboard-input{
+#inputGame{
+    display: none;
+}
+
+#dartboardInput{
+    display: block;
     position: absolute;
     left: 50%;
     top: 50%;
     height: 800px;
     width: 800px;
     transform: translateY(-50%) translateX(-50%);
-    background-color: var(--color_interface);
-    box-shadow: 0px 0px 20px 50px var(--color_interface);
+    
 }
 
+#inputBoard{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 710px;
+    height:710px;
+    transform: translateY(-50%) translateX(-50%);
+}
+
+.dartboardButton{
+    cursor: pointer;
+}
+
+#switchInputType{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    transform: translateY(-420px) translateX(-50%);
+}
+
+#tableInput{
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 700px;
+    width: 800px;
+    transform: translateY(-50%) translateX(-50%);
+    background-color: var(--color_interface);
+}
+
+#inputTableHead{
+    position: absolute;
+    top: 50%;
+    left: 55%;
+    width: 710px;
+    height: 150px;
+    transform: translateY(-350px) translateX(-50%);
+}
+
+
+#createGame{
+
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 500px;
+    width: 500px;
+    transform: translateY(-50%) translateX(-50%);
+    background-color: var(--color_interface);
+
+}

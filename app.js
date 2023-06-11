@@ -29,3 +29,8 @@ app.post("/login", (req, res)=>{
         res.status(401).send({"success": false, "error":"password", "reason": "wrong password"});
     }
 })
+
+app.get("/clientUpdate", (req, res)=>{
+    console.log("updateRequest");
+    res.status(200);
+})
