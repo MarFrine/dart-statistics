@@ -10,6 +10,7 @@
     <script src="./game.js" defer></script>
     <script src="./person.js" defer></script>
     <script src="./dartboardInput.js" defer></script>
+    <script src="./createGame.js" defer></script>
 </head>
 <body>
     <div id="loginContentBlock">
@@ -39,15 +40,16 @@
 
     <div class="mainMenuPoint" id="mainMenu"></div>
     <div class="mainMenuPoint" id="game">
+        <button id="clientSync" onclick="clientUpdate()">sync</button>
         <div class="mainMenuPoint gameSubpoint" id="gameOverview">
             <div>no current game -> create a new game</div>
             <div>ongoing game -> watch or input</div>
         </div>
         <div class="mainMenuPoint gameSubpoint" id="createGame">
-            <form onsubmit="createNewGame(event, this)">
-                player: [] <input type="button" value="add player"><br>
+            <form id="createGameForm" onsubmit="createNewGame(event, this)">
+                player: [] <input type="button" onclick="openPlayerList()" value="add player"><br>
                 -----<br>
-                <input type="radio" id="xThrows" name="gameType" value="xThrows">
+                <input type="radio" id="xThrows" name="gameType" value="xThrows" checked>
                 <label for="xThrows">x-Throws</label><br>
                 <input type="radio" id="firstToX" name="gameType" value="firstToX">
                 <label for="firstToX">firstToX</label><br>
@@ -58,6 +60,8 @@
                 <label for="doubleOut">doubleOut</label><br>
                 <input type="checkbox" id="teams" name="gameRules" value="teams">
                 <label for="teams">teams</label><br>
+
+                <button type="submit">erstellen</button>
             </form>
         </div>
         <div class="mainMenuPoint gameSubpoint" id="watchGame">

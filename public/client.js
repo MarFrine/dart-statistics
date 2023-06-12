@@ -14,7 +14,7 @@ async function transferData(url, type, bodyData){
     }
 }
 
-
+let accountData;
 function sendLoginData(event, formElement){
     event.preventDefault();
     transferData("/login", "post", {"username": formElement[0].value, "password": formElement[1].value})
@@ -33,12 +33,11 @@ function sendLoginData(event, formElement){
             }
         } else {
 
+            accountData = data.data
             document.getElementById("loginError").style.display = "none";
             document.getElementById("loginField").style.display = "none";
             document.getElementById("loginContentBlock").style.display = "none";
             clientUpdate();
-            periodicClientUpdate = setInterval("clientUpdate()", 3000);
-
         }
     });
 }
