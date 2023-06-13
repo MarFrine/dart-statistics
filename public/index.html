@@ -9,7 +9,7 @@
     <script src="./scripts/client.js" defer></script>
     <script src="./scripts/game.js" defer></script>
     <script src="./scripts/person.js" defer></script>
-    <script src="./scripts/dartboardInput.js" defer></script>
+    <script src="./scripts/input.js" defer></script>
     <script src="./scripts/createGame.js" defer></script>
 </head>
 <body>
@@ -28,19 +28,17 @@
 
 
     <div id="navigation">
-        <button onclick="changeMenuPoint('mainMenu')">Hauptmenü</button>
-        <button onclick="changeMenuPoint('gameOverview')">Spiel</button>
-        <button onclick="changeMenuPoint('createGame')">Spiel:erstellen</button>
-        <button onclick="changeMenuPoint('inputGame')">Spiel:eintragen</button>
-        <button onclick="changeMenuPoint('watchGame')">Spiel:anschauen</button>
-        <button id="switchTheme" onclick="switchTheme()">
-            <img id="themeImage" src="img/dark.png" width="100%" height="100%">
-        </button>
+        <button class="navigationButton" onclick="changeMenuPoint('mainMenu')">Hauptmenü</button>
+        <button class="navigationButton" onclick="changeMenuPoint('gameOverview')">Spiel</button>
+        <button class="navigationButton" onclick="changeMenuPoint('createGame')">Spiel:erstellen</button>
+        <button class="navigationButton" onclick="changeMenuPoint('inputGame')">Spiel:eintragen</button>
+        <button class="navigationButton" onclick="changeMenuPoint('watchGame')">Spiel:anschauen</button>
+        <button id="switchTheme" onclick="switchTheme()"><img id="themeImage" src="img/dark.png" width="100%" height="100%"></button>
+        <button id="clientSync" onclick="clientUpdate()">sync</button>
     </div>
 
     <div class="mainMenuPoint" id="mainMenu"></div>
     <div class="mainMenuPoint" id="game">
-        <button id="clientSync" onclick="clientUpdate()">sync</button>
         <div class="mainMenuPoint gameSubpoint" id="gameOverview">
             <div>no current game -> create a new game</div>
             <div>ongoing game -> watch or input</div>
@@ -53,15 +51,24 @@
                 -----<br>
                 <input type="radio" id="xThrows" name="gameType" value="xThrows" checked>
                 <label for="xThrows">x-Throws</label><br>
+                  <label for="throwSlider" id="throwSliderLabel">Throws</label><br>
+                  <input type="range" min="5" max="30" value="10" name="gameTypeExtra" id="throwSlider"><br>
+                
                 <input type="radio" id="firstToX" name="gameType" value="firstToX">
-                <label for="firstToX">firstToX</label><br>
+                <label for="firstToX">firstToX</label><br><br>
+                  <input type="radio" id="firstTo301" name="gameTypeExtra" value="301" checked style="display: none;">
+                  <label for="firstTo301" id="firstTo301Label" style="display: none;">first To 301</label><br>
+                  <input type="radio" id="firstTo501" name="gameTypeExtra" value="501" style="display: none;">
+                  <label for="firstTo501" id="firstTo501Label" style="display: none;">first To 501</label><br>
+                  <input type="radio" id="firstTo701" name="gameTypeExtra" value="701" style="display: none;">
+                  <label for="firstTo701" id="firstTo701Label" style="display: none;">first To 701</label><br>
                 -----<br>
                 <input type="checkbox" id="doubleIn" name="gameRules" value="doubleIn">
                 <label for="doubleIn">doubleIn</label><br>
                 <input type="checkbox" id="doubleOut" name="gameRules" value="doubleOut">
                 <label for="doubleOut">doubleOut</label><br>
-                <input type="checkbox" id="teams" name="gameRules" value="teams">
-                <label for="teams">teams</label><br>
+                <input type="checkbox" id="double" name="gameRules" value="double">
+                <label for="double">double</label><br>
 
                 <button type="submit">erstellen</button>
             </form>
@@ -70,22 +77,24 @@
         
         </div>
         <div class="mainMenuPoint gameSubpoint" id="inputGame">
+            <div id="inputTurnOrder"></div>
+            <div id="inputCurrentTurn"></div>
             <div id="tableInput">
-                <svg id="inputTableHead" width="660" height="150">
+               <svg id="inputTableHead" width="660" height="150">
                     <g transform="scale(1.4 1.4)">
                         <g>
-                            <a class="dartboardButton" id="field_2x201"><path d="M385.8913837,38.077914851 A250,250 0 0 1 464.1086163,38.077914851 L459.4155823,67.70856507 A220,220 0 0 0 390.5844177,67.70856507 L385.8913837,38.077914851" style="fill: #9E170D;"/></a>
-                            <a class="dartboardButton" id="field_1x201_outer1"><path d="M300.5844177,20.70856507 A220,220 0 0 1 369.4155823,20.70856507 L359.2473421,84.90830721 A155,155 0 0 0 310.7526579,84.90830721 L300.5844177,20.70856507" style="fill: #000000;"/></a>
-                            <a class="dartboardButton" id="field_3x201"><path d="M230.7526579,36.90830721 A155,155 0 0 1 279.2473421,36.90830721 L274.55430813,66.5389574 A125,125 0 0 0 235.4456919,66.5389574 L230.7526579,36.90830721" style="fill: #9E170D;"/></a>
-                            <a class="dartboardButton" id="field_1x20_inner1"><path d="M135.4456919,11.5389574 A125,125 0 0 1 174.55430813,11.5389574 L159.693033951,105.3693498 A30,30 0 0 0 150.306966,105.3693498 L135.4456919,11.5389574" style="fill: #000000;"/></a>
+                            <a class="dartboardButton" id="field_2x"><path d="M1,40 A250,250 0 0 1 80,40 L75,70 A220,220 0 0 0 6,70 L1,40" style="fill: #9E170D;"/></a>
+                            <a class="dartboardButton" id="field_outer"><path d="M100,20 A240,220 0 0 1 170,20 L160,85 A155,155 0 0 0 110,85 L100,20" style="fill: #000000;"/></a>
+                            <a class="dartboardButton" id="field_3x"><path d="M190,40 A155,155 0 0 1 240,40 L235,70 A125,125 0 0 0 195,70 L190,40" style="fill: #9E170D;"/></a>
+                            <a class="dartboardButton" id="field_inner"><path d="M260,5 A125,125 0 0 1 300,5 L285,100 A30,30 0 0 0 275,100 L260,5" style="fill: #000000;"/></a>
                         </g>
                         <g>
-                            <a class="dartboardButton" id="field_2x202"><circle cx="70" cy="50" r="20"
-                                style="stroke: #1D7502; stroke-width: 17; fill: transparent;"/></a>
+                          <a class="dartboardButton" id="field_ring"><circle cx="350" cy="50" r="20"
+                          style="stroke-width: 17; fill: transparent; stroke: #1D7502;"/></a>
                         </g>
                         <g>
-                            <a class="dartboardButton" id="field_2x203"><circle cx="20" cy="50" r="13"
-                                style="fill: #9E170D;"/>
+                          <a class="dartboardButton" id="field_dot"><circle cx="420" cy="50" r="13"
+                          style="fill: #9E170D;"/></a>
                         </g>
                     </g>
                 </svg>

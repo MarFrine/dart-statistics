@@ -4,6 +4,7 @@
         "password": "1234",
 
         "data": {
+	    "totalGames": 0,
             "people": [
                 {
                     "name": "person1",
@@ -27,6 +28,7 @@
             "games": [
                 {
                     "date": "10.06.2023",
+		    "id": 1,
                     "player": [
                         "person1",
                         "person2",
@@ -40,8 +42,8 @@
                         "doubleOut": false
                     },
                     "scores": {
-                        "round1": {
-                            "person1":{
+                        "person1": {
+                            "round1":{
                                 "throw1":{
                                     "field": "3x20",
                                     "score": 60
@@ -55,7 +57,7 @@
                                     "score": 3
                                 }
                             },
-                            "person2":{
+                            "round2":{
                                 "throw1":{
                                     "field": "2x14",
                                     "score": 28
@@ -69,7 +71,7 @@
                                     "score": 50
                                 }
                             },
-                            "person3":{
+                            "round3":{
                                 "throw1":{
                                     "field": "1x17",
                                     "score": 17

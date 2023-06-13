@@ -41,6 +41,22 @@ body{
     background-color: var(--color_interface_light);
 }
 
+#clientSync{
+    position: absolute;
+    bottom: 10px;
+    left: 70px;
+    height: 50px;
+    width: 50px;
+    border-radius: 30%;
+    border: 2px solid var(--color_highlights);
+    background-color: var(--color_interface);
+    cursor: pointer;
+}
+
+#clientSync:hover{
+    background-color: var(--color_interface_light);
+}
+
 
 #game{
     display: none;
@@ -176,4 +192,24 @@ body{
     height: 90%;
     width: 40%;
 
+}
+
+#inputTurnOrder{
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    height: 500px;
+    width: 300px;
+    transform: translateY(-50%);
+    background-color: var(--color_interface);
+}
+
+#inputCurrentTurn{
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    height: 500px;
+    width: 300px;
+    transform: translateY(-50%);
+    background-color: var(--color_interface);
 }

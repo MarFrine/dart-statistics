@@ -30,20 +30,25 @@ let highlightedDartColors = [
 
 function highlightDartField(fieldID){
     let currentColor
-    if(fieldID != "field_25" && fieldID != "field_50"){
+    if(fieldID != "field_25" && fieldID != "field_50" && fieldID != "field_ring" && fieldID != "field_dot"){
         currentColor = document.getElementById(fieldID).innerHTML.toString().slice(-17,-10);
     } else {
         currentColor = document.getElementById(fieldID).innerHTML.toString().slice(-19,-12);
     }
     let colorIndex = dartColors.findIndex((thisColor)=>{return thisColor == currentColor});
     if(colorIndex >= 0){
-        document.getElementById(fieldID).innerHTML = document.getElementById(fieldID).innerHTML.replace("fill: " + currentColor, "fill: " + highlightedDartColors[colorIndex]);
+        if(fieldID != "field_ring"){
+            document.getElementById(fieldID).innerHTML = document.getElementById(fieldID).innerHTML.replace("fill: " + currentColor, "fill: " + highlightedDartColors[colorIndex]);
+        } else {
+            document.getElementById(fieldID).innerHTML = document.getElementById(fieldID).innerHTML.replace("stroke: " + currentColor, "stroke: " + highlightedDartColors[colorIndex]);
+        }
+        
     }
 }
 
 function unhighlightDartField(fieldID){
     let currentColor
-    if(fieldID != "field_25" && fieldID != "field_50"){
+    if(fieldID != "field_25" && fieldID != "field_50" && fieldID != "field_ring" && fieldID != "field_dot"){
         currentColor = document.getElementById(fieldID).innerHTML.toString().slice(-17,-10);
     } else {
         currentColor = document.getElementById(fieldID).innerHTML.toString().slice(-19,-12);
@@ -51,9 +56,16 @@ function unhighlightDartField(fieldID){
     
     let colorIndex = highlightedDartColors.findIndex((thisColor)=>{return thisColor == currentColor});
     if(colorIndex >= 0){
-        document.getElementById(fieldID).innerHTML = document.getElementById(fieldID).innerHTML.replace("fill: " + currentColor, "fill: " + dartColors[colorIndex]);
+        if(fieldID != "field_ring"){
+            document.getElementById(fieldID).innerHTML = document.getElementById(fieldID).innerHTML.replace("fill: " + currentColor, "fill: " + dartColors[colorIndex]);
+        } else {
+            document.getElementById(fieldID).innerHTML = document.getElementById(fieldID).innerHTML.replace("stroke: " + currentColor, "stroke: " + dartColors[colorIndex]);
+        }
     }
 }
+
+
+// Dartboard
 
 function clickField(fieldID){
     console.log("geklickt!");

@@ -61,7 +61,7 @@ function switchTheme(){
         document.documentElement.style.setProperty("--color_interface", "rgb(130, 130, 130)");
         document.documentElement.style.setProperty("--color_interface_dark", "rgb(100,100,100)");
         document.documentElement.style.setProperty("--color_interface_light", "rgb(180,180,180)");
-        document.documentElement.style.setProperty("--color_highlights", "rgb(0, 153, 51)");
+        document.documentElement.style.setProperty("--color_highlights", "rgb(16, 120, 50)");
 
         document.getElementById("themeImage").src = "img/light.png"
 
