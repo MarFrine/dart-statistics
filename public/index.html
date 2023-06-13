@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <title>Dart-Stats</title>
     <link type="image/png" sizes="32x32" rel="icon" href="../favicon.png">
-    <link type="text/css" rel="stylesheet" href="./index.css">
-    <link type="text/css" rel="stylesheet" href="./login.css">
-    <script src="./client.js" defer></script>
-    <script src="./game.js" defer></script>
-    <script src="./person.js" defer></script>
-    <script src="./dartboardInput.js" defer></script>
-    <script src="./createGame.js" defer></script>
+    <link type="text/css" rel="stylesheet" href="./styles/index.css">
+    <link type="text/css" rel="stylesheet" href="./styles/login.css">
+    <script src="./scripts/client.js" defer></script>
+    <script src="./scripts/game.js" defer></script>
+    <script src="./scripts/person.js" defer></script>
+    <script src="./scripts/dartboardInput.js" defer></script>
+    <script src="./scripts/createGame.js" defer></script>
 </head>
 <body>
     <div id="loginContentBlock">
@@ -46,8 +46,10 @@
             <div>ongoing game -> watch or input</div>
         </div>
         <div class="mainMenuPoint gameSubpoint" id="createGame">
+          <div id="activePlayerList"></div>
+          <div id="inactivePlayerList"></div>
+          <button id="newPlayer_CreateGame">neuer Spieler</button>
             <form id="createGameForm" onsubmit="createNewGame(event, this)">
-                player: [] <input type="button" onclick="openPlayerList()" value="add player"><br>
                 -----<br>
                 <input type="radio" id="xThrows" name="gameType" value="xThrows" checked>
                 <label for="xThrows">x-Throws</label><br>

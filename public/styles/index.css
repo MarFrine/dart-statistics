@@ -122,3 +122,58 @@ body{
     background-color: var(--color_interface);
 
 }
+
+#activePlayerList{
+
+    position: absolute;
+    left: 25px;
+    top: 25px;
+    height: 150px;
+    width: 200px;
+    overflow-y: scroll;
+    border: 1px solid black;
+    background-color: var(--color_interface);
+
+}
+
+#inactivePlayerList{
+
+    position: absolute;
+    left: 25px;
+    top: 200px;
+    height: 150px;
+    width: 200px;
+    overflow-y: scroll;
+    border: 1px solid black;
+    background-color: var(--color_interface);
+
+}
+
+#newPlayer_CreateGame{
+
+    position: absolute;
+    left: 75px;
+    bottom: 50px;
+    height: 50px;
+    width: 100px;
+    overflow-y: scroll;
+    border: 1px solid black;
+    background-color: var(--color_interface);
+    border: 2px solid var(--color_highlights);
+    cursor: pointer;
+    border-radius: 10px;
+
+}
+
+#newPlayer_CreateGame:hover{
+    background-color: var(--color_interface_light);
+}
+
+#createGameForm{
+    position: absolute;
+    left: 55%;
+    bottom: 5%;
+    height: 90%;
+    width: 40%;
+
+}

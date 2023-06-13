@@ -34,6 +34,7 @@ function sendLoginData(event, formElement){
         } else {
 
             accountData = data.data
+            console.log(accountData);
             document.getElementById("loginError").style.display = "none";
             document.getElementById("loginField").style.display = "none";
             document.getElementById("loginContentBlock").style.display = "none";
@@ -80,6 +81,7 @@ function switchTheme(){
 }
 
 function changeMenuPoint(menuPoint){
+    clearInterval(periodicClientUpdate);
     clientUpdate();
     let menuPointDivs = document.getElementsByClassName("mainMenuPoint")
     for(let i = 0; i < menuPointDivs.length; i++){
@@ -88,6 +90,11 @@ function changeMenuPoint(menuPoint){
     document.getElementById(menuPoint).style.display = "block";
     if(document.getElementById(menuPoint).classList.contains("gameSubpoint")){
         document.getElementById("game").style.display = "block";
+        if(menuPoint == "watchGame"){
+            periodicClientUpdate = setInterval("clientUpdate()", 1000);
+        } else if(menuPoint == "createGame"){
+            updatePlayerList();
+        }
     }
 }
 

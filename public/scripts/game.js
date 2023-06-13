@@ -4,7 +4,7 @@ class Game{
         this.playerList = playerList;
         this.playerCount = this.playerList.length;
         this.date = Date();
-
+        console.log(this.playerCount, this.playerList)
 
         this.type = type || "test";
         console.log(this.type);
