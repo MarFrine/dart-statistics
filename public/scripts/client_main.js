@@ -15,6 +15,7 @@ async function transferData(url, type, bodyData){
 }
 
 let accountData;
+let idValuePairs;
 function sendLoginData(event, formElement){
     event.preventDefault();
     transferData("/login", "post", {"username": formElement[0].value, "password": formElement[1].value})
@@ -32,8 +33,8 @@ function sendLoginData(event, formElement){
                 document.getElementById("loginPassword").select();
             }
         } else {
-
-            accountData = data.data
+            idValuePairs = data.idValuePairs;
+            accountData = data.data;
             console.log(accountData);
             document.getElementById("loginError").style.display = "none";
             document.getElementById("loginField").style.display = "none";
@@ -47,8 +48,13 @@ let periodicClientUpdate
 function clientUpdate(){
     transferData("/clientUpdate", "get")
     .then((data)=>{
-
-        console.log(data);
+        currentGame = data.game;
+        if(currentMenuPoint == "inputGame"){
+            displayTurnOrder();
+            displayCurrentTurn();
+        }
+        console.log("update: ", data);
+        //console.log(data);
 
     })
 }
@@ -80,7 +86,9 @@ function switchTheme(){
 
 }
 
+currentMenuPoint = "mainMenu";
 function changeMenuPoint(menuPoint){
+    currentMenuPoint = menuPoint;
     clearInterval(periodicClientUpdate);
     clientUpdate();
     let menuPointDivs = document.getElementsByClassName("mainMenuPoint")
@@ -93,14 +101,25 @@ function changeMenuPoint(menuPoint){
         if(menuPoint == "watchGame"){
             periodicClientUpdate = setInterval("clientUpdate()", 1000);
         } else if(menuPoint == "createGame"){
-            updatePlayerList();
+            if(currentGame){
+                changeMenuPoint("watchGame");
+            } else {
+                updatePlayerList();
+            }
+        } else if(menuPoint == "inputGame"){
+            if(!currentGame){
+                changeMenuPoint("createGame");
+            } else {
+                displayTurnOrder();
+            }
         }
     }
 }
 
 
 function switchInputType(){
-
+    tableFieldType = undefined;
+    tableFieldNumber = undefined;
     if(document.getElementById("tableInput").style.display != "block"){
         document.getElementById("dartboardInput").style.display = "none";
         document.getElementById("tableInput").style.display = "block";

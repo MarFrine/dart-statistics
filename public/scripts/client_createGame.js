@@ -9,8 +9,7 @@ let newGameRules = {
 resetCreationForm();
 
 
-
-creationForm.onchange = (change)=>{
+creationForm.addEventListener("input", (change)=>{
 
     if(change.target.name == "gameType"){
         newGameRules.type = change.target.value;
@@ -25,6 +24,11 @@ creationForm.onchange = (change)=>{
             document.getElementById("firstTo501Label").style.display = "block";
             document.getElementById("firstTo701").style.display = "block";
             document.getElementById("firstTo701Label").style.display = "block";
+
+            document.getElementById("doubleOut").disabled = false;
+            document.getElementById("doubleIn").disabled = false;
+            document.getElementById("double").disabled = true;
+            document.getElementById("double").checked = false;
 
             if(document.getElementById("firstTo301").checked){
                 newGameRules.subtype = "301";
@@ -45,11 +49,23 @@ creationForm.onchange = (change)=>{
             document.getElementById("throwSlider").style.display = "block";
             document.getElementById("throwSliderLabel").style.display = "block";
 
+            document.getElementById("doubleOut").disabled = true;
+            document.getElementById("doubleOut").checked = false;
+            document.getElementById("doubleIn").disabled = true;
+            document.getElementById("doubleIn").checked = false;
+            document.getElementById("double").disabled = false;
+            const index = newGameRules.specifications.indexOf("doubleOut");
+            if(index > -1){
+                newGameRules.specifications.splice(index, 1);
+            }
+
             newGameRules.subtype = document.getElementById("throwSlider").value;
         }
     } else if(change.target.name == "gameTypeExtra"){
         newGameRules.subtype = change.target.value;
-
+        if(newGameRules.type == "xThrows"){
+            document.getElementById("throwSliderLabel").innerHTML = newGameRules.subtype + " Throws";
+        }
     } else if(change.target.name == "gameRules"){
         if(change.target.checked){
             newGameRules.specifications.push(change.target.value);
@@ -61,7 +77,7 @@ creationForm.onchange = (change)=>{
         }
     }
 
-}
+});
 
 function resetCreationForm(){
     creationForm.reset();
@@ -117,14 +133,17 @@ function updatePlayerList(){
     document.getElementById("inactivePlayerList").innerHTML = inactivePlayerListString;
 }
 
-
+let currentGame = undefined;
 function createNewGame(event, formElement){
     event.preventDefault();
 
-    newGame = new Game(newGameRules.type, newGameRules.subtype, newGameRules.players, newGameRules.specifications);
+    //newGame = new Game(newGameRules.type, newGameRules.subtype, newGameRules.players, newGameRules.specifications);
+    transferData("/createGame", "post", {"type": newGameRules.type, "subtype": newGameRules.subtype, "players": newGameRules.players, "specifications":newGameRules.specifications})
+    .then((data)=>{
+        currentGame = data;
+        changeMenuPoint('inputGame');
+    });
 
     resetCreationForm();
     updatePlayerList();
-    changeMenuPoint('inputGame');
-    
 }
