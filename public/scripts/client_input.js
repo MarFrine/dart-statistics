@@ -43,7 +43,6 @@ let highlightedDartColors = [
 ]
 
 function highlightDartField(fieldID){
-    console.log("highlight")
     let currentColor
     if(fieldID != "field_25" && fieldID != "field_50" && fieldID != "field_ring" && fieldID != "field_dot"){
         currentColor = document.getElementById(fieldID).innerHTML.toString().trim().slice(-17,-10);
@@ -63,10 +62,8 @@ function highlightDartField(fieldID){
 
 function unhighlightDartField(fieldID){
     if(document.getElementById(fieldID).locked){
-        console.log("unhighlight locked")
         return;
     }
-    console.log("unhighlight")
     let currentColor
     if(fieldID != "field_25" && fieldID != "field_50" && fieldID != "field_ring" && fieldID != "field_dot"){
         currentColor = document.getElementById(fieldID).innerHTML.toString().trim().slice(-17,-10);
@@ -97,18 +94,21 @@ function displayTurnOrder(){
     }
     console.log(turnOrderString);
     document.getElementById("inputTurnOrderDiv").innerHTML = turnOrderString;
-
-    let turnInfoString = "Round: " + currentGame.currentRound + "/" + currentGame.subtype;
-    document.getElementById("inputTurnInfo").innerHTML = turnInfoString;
+    if(currentGame.type == "xThrows"){
+        let turnInfoString = "Round: " + currentGame.currentRound + "/" + currentGame.subtype;
+        document.getElementById("inputTurnInfo").innerHTML = turnInfoString;
+    } else if(currentGame.type == "firstToX"){
+        let turnInfoString = "Round: " + currentGame.currentRound;
+        document.getElementById("inputTurnInfo").innerHTML = turnInfoString;
+    }
+    
 }
 
 function displayCurrentTurn(){
-    console.log("displayCurrentTurn", currentScores);
     
-    document.getElementById("inputCurrentTurnName").innerHTML = "<h1>" + currentGame.currentTurn + "</h1>";
+    document.getElementById("inputCurrentTurnName").innerHTML = "<h1>" + currentGame.currentTurn + "  --  " + currentGame.scores[currentGame.currentTurn].totalScore + "</h1>";
 
     let currentScore = 0;
-
     for(let i = 1; i <= 3; i++){
         let color = "white";
         if(i == selectedScore){
@@ -222,6 +222,10 @@ let currentScores = {
 let inputDisabled = false;
 function setScore(field){
     
+    if(currentGame.scores[currentGame.currentTurn].doubleInLocked && !field.startsWith("2x")){
+        console.log("kein doppelter obwohl double in");
+    }
+
     let fieldIndex = idValuePairs.id.findIndex((thisID)=>{return thisID == field;});
     let fieldValue = idValuePairs.value[fieldIndex];
 

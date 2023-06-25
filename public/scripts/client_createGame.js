@@ -75,6 +75,12 @@ creationForm.addEventListener("input", (change)=>{
                 newGameRules.specifications.splice(index, 1);
             }
         }
+
+        if((newGameRules.specifications.find((thisSpecification)=>{return thisSpecification == "double"}) && newGameRules.players.length%2 == 0 && newGameRules.players.length > 0) || !newGameRules.specifications.find((thisSpecification)=>{return thisSpecification == "double"}) && newGameRules.players.length > 0){
+            document.getElementById("createGameButton").disabled = false;
+        } else {
+            document.getElementById("createGameButton").disabled = true;
+        }
     }
 
 });
@@ -90,6 +96,11 @@ function resetCreationForm(){
 
     document.getElementById("throwSlider").style.display = "block";
     document.getElementById("throwSliderLabel").style.display = "block";
+
+    document.getElementById("createGameButton").disabled = true;
+
+    document.getElementById("doubleIn").disabled = true;
+    document.getElementById("doubleOut").disabled = true;
 
     newGameRules = {
         type: "xThrows",
@@ -114,6 +125,16 @@ function removePlayer(buttonObject){
 }
 
 function updatePlayerList(){
+    if(newGameRules.players.length == 0){
+        document.getElementById("createGameButton").disabled = true;
+    } else {
+        if((newGameRules.specifications.find((thisSpecification)=>{return thisSpecification == "double"}) && newGameRules.players.length%2 == 0) || !newGameRules.specifications.find((thisSpecification)=>{return thisSpecification == "double"})){
+            document.getElementById("createGameButton").disabled = false;
+        } else {
+            document.getElementById("createGameButton").disabled = true;
+        }
+    }
+
     let activePlayerListString = "<h3>aktive Spieler</h3><br><br>"
     for(let i = 0; i < newGameRules.players.length; i++){
         activePlayerListString = activePlayerListString + "<button class='playerListButton' onclick='removePlayer(this)'>" + newGameRules.players[i] + "</button><br>";

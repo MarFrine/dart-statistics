@@ -4,11 +4,9 @@ module.exports = class ServerSideGame{
         this.playerList = playerList;
         this.playerCount = this.playerList.length;
         this.date = Date();
-        console.log(this.playerCount, this.playerList)
 
         this.type = type;
         this.subtype = subtype;
-        console.log(this.type, subtype);
 
         this.specifications = {
             doubleIn: false,
@@ -18,7 +16,7 @@ module.exports = class ServerSideGame{
         for(let i = 0; i < specifications.length; i++){
             this.specifications[specifications[i]] = true
         }
-        console.log(this.specifications);
+        console.log(this.playerCount, this.playerList, this.type, this.subtype, this.specifications);
 
         this.currentRound = 1;
         this.roundString = "round" + this.currentRound;
@@ -34,22 +32,44 @@ module.exports = class ServerSideGame{
         this.scores = {};
         for(let i = 0; i < this.playerCount; i++){
             this.scores[this.playerList[i]] = {};
+            if(this.type == "xThrows"){
+                this.scores[this.playerList[i]].totalScore = 0;
+            } else if(this.type == "firstToX"){
+                this.scores[this.playerList[i]].totalScore = Number(this.subtype);
+                this.scores[this.playerList[i]].doubleInLocked = false;
+                if(this.specifications.doubleIn){
+                    this.scores[this.playerList[i]].doubleInLocked = true;
+                }
+            }
+            
         }
         //runde 1
         for(let i = 0; i < this.playerCount; i++){
             let round = "round" + this.currentRound;
             this.scores[this.playerList[i]][round] = {}
         }
-        console.log(this.scores);
     }
 
 
     setScore(scoreToSet, field, value){
-        this.scores[this.currentTurn][this.roundString]["throw" + scoreToSet] = {}
+        if(this.scores[this.currentTurn][this.roundString]["throw" + scoreToSet]){
+            if(this.type == "xThrows"){
+                this.scores[this.currentTurn].totalScore -= this.scores[this.currentTurn][this.roundString]["throw" + scoreToSet].value;
+            } else if(this.type == "firstToX"){
+                this.scores[this.currentTurn].totalScore += this.scores[this.currentTurn][this.roundString]["throw" + scoreToSet].value;
+            }
+        }
+
+        this.scores[this.currentTurn][this.roundString]["throw" + scoreToSet] = {};
         this.scores[this.currentTurn][this.roundString]["throw" + scoreToSet].field = field;
         this.scores[this.currentTurn][this.roundString]["throw" + scoreToSet].value = value;
 
-        console.log(this.scores);
+        if(this.type == "xThrows"){
+            this.scores[this.currentTurn].totalScore += this.scores[this.currentTurn][this.roundString]["throw" + scoreToSet].value;
+        } else if(this.type == "firstToX"){
+            this.scores[this.currentTurn].totalScore -= this.scores[this.currentTurn][this.roundString]["throw" + scoreToSet].value;
+        }
+        console.log(this.scores[this.currentTurn].totalScore);
     }
 
 
