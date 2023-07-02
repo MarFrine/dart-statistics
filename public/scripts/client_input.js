@@ -220,18 +220,23 @@ let currentScores = {
     throw3: {}
 }
 let inputDisabled = false;
-function setScore(field){
-    
-    if(currentGame.scores[currentGame.currentTurn].doubleInLocked && !field.startsWith("2x")){
-        console.log("kein doppelter obwohl double in");
-    }
-
+function setScore(field){ //------------so ändern, dass gesamte Logik auf Server ist -> nach jeder eingabe an Server schicken und dann antwort nutzen
+     
     let fieldIndex = idValuePairs.id.findIndex((thisID)=>{return thisID == field;});
     let fieldValue = idValuePairs.value[fieldIndex];
 
     currentScores["throw" + selectedScore].field = field;
     currentScores["throw" + selectedScore].score = fieldValue;
-    transferData("/setScore", "post", ({"scoreToSet": selectedScore, "field": field, "score": fieldValue}));
+
+
+    if(currentGame.scores[currentGame.currentTurn].doubleInLocked && !field.startsWith("2x")){
+        transferData("/setScore", "post", ({"scoreToSet": selectedScore, "field": field, "score": fieldValue, "locked": true}));
+        currentGame.scores[currentGame.currentTurn].doubleInLocked = false;
+    } else {
+        transferData("/setScore", "post", ({"scoreToSet": selectedScore, "field": field, "score": fieldValue, "locked": false}));
+  
+    }
+    
 
     if(!currentlyChanging && selectedScore < 3){
         selectedScore++;
@@ -254,6 +259,7 @@ function setScore(field){
     displayCurrentTurn();
     
     console.log(currentScores);
+    
 }
 
 function changeScore(scoreToChange){
