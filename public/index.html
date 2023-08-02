@@ -37,6 +37,8 @@
         <button class="navigationButton" onclick="changeMenuPoint('createGame')">Spiel:erstellen</button>
         <button class="navigationButton" onclick="changeMenuPoint('inputGame')">Spiel:eintragen</button>
         <button class="navigationButton" onclick="changeMenuPoint('watchGame')">Spiel:anschauen</button>
+        <button class="navigationButton" onclick="changeMenuPoint('person')">Spieler</button>
+
         <button id="switchTheme" onclick="switchTheme()"><img id="themeImage" src="img/dark.png" width="100%"
                 height="100%"></button>
         <button id="clientSync" onclick="clientUpdate()">sync</button>
@@ -79,8 +81,11 @@
             </form>
         </div>
         <div class="mainMenuPoint gameSubpoint" id="watchGame"></div>
-        <div class="mainMenuPoint gameSubpoint" id="summarizeGame"></div>
+        <div class="mainMenuPoint gameSubpoint" id="summarizeGame">
+
+        </div>
         <div class="mainMenuPoint gameSubpoint" id="inputGame">
+            <div id="inputGameBlock"></div>
             <div id="inputTurnOrder">
                 <div id="inputTurnInfo">Round: 3/10</div>
                 <div id="inputTurnOrderDiv"></div>

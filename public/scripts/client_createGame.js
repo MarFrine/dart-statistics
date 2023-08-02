@@ -159,7 +159,7 @@ function createNewGame(event, formElement){
     event.preventDefault();
 
     //newGame = new Game(newGameRules.type, newGameRules.subtype, newGameRules.players, newGameRules.specifications);
-    transferData("/createGame", "post", {"type": newGameRules.type, "subtype": newGameRules.subtype, "players": newGameRules.players, "specifications":newGameRules.specifications})
+    transferData("/createGame", "post", {"type": newGameRules.type, "subtype": newGameRules.subtype, "players": newGameRules.players, "specifications":newGameRules.specifications, "clientID": clientID})
     .then((data)=>{
         currentGame = data;
         changeMenuPoint('inputGame');

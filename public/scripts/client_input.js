@@ -86,7 +86,11 @@ function displayTurnOrder(){
     let turnOrderString = "";
     for(let i = 0; i < currentGame.playerCount; i++){
         if(currentGame.currentTurn != currentGame.playerList[i]){
-            turnOrderString = turnOrderString + currentGame.playerList[i] + "<br>";
+            if(currentGame.scores[currentGame.playerList[i]].finished){
+                turnOrderString = turnOrderString + "<font color='blue'>" + currentGame.playerList[i] + "</font><br>";
+            } else {
+                turnOrderString = turnOrderString + currentGame.playerList[i] + "<br>";
+            }
         } else {
             turnOrderString = turnOrderString + "<font size='+3' color='gold'>" + currentGame.playerList[i] + "</font><br>";
         }
@@ -107,17 +111,22 @@ function displayTurnOrder(){
 function displayCurrentTurn(){
     
     document.getElementById("inputCurrentTurnName").innerHTML = "<h1>" + currentGame.currentTurn + "  --  " + currentGame.scores[currentGame.currentTurn].totalScore + "</h1>";
-
+    console.log(currentScores)
     let currentScore = 0;
     for(let i = 1; i <= 3; i++){
         let color = "white";
         if(i == selectedScore){
             color = "yellow";
         }
-        if(currentScores["throw" + i].score){
-            document.getElementById("throw" + i + "Text").innerHTML = "<font color='" + color + "' >Throw " + i + ": " + currentScores["throw" + i].score + "</font>";
+        if(currentScores["throw" + i]){
+            if(currentScores["throw" + i].locked && i != selectedScore){
+                color = "red";
+            }
+            document.getElementById("throw" + i + "Text").innerHTML = "<font color='" + color + "' >Throw " + i + ": " + currentScores["throw" + i].value + "</font>";
             document.getElementById("editThrow" + i).style.display = "block";
-            currentScore += currentScores["throw" + i].score;
+            if(!currentScores["throw" + i].locked){
+                currentScore += currentScores["throw" + i].value;
+            }
         } else {
             document.getElementById("throw" + i + "Text").innerHTML = "<font color='" + color + "' >Throw " + i + ": </font>";
             document.getElementById("editThrow" + i).style.display = "none";
@@ -126,6 +135,14 @@ function displayCurrentTurn(){
     document.getElementById("turnTotalScore").innerHTML = "Current score: " + currentScore;
 }
 
+
+function clickMissField(){
+    if(!selectedScore || inputDisabled){
+        return;
+    }
+
+    setScore("miss");
+}
 
 // Dartboard
 
@@ -150,14 +167,12 @@ function clickTypeField(fieldID){
     if((inputDisabled || !selectedScore) && fieldID){
         return;
     }
-    console.log("test");
     let tableInputTypeButtons = document.getElementsByClassName("tableInputTypeButton");
     for(let i = 0; i < tableInputTypeButtons.length; i++){
         tableInputTypeButtons[i].locked = false;
     }
     
     if(fieldID){
-        console.log("fieldID")
         tableFieldType = fieldID.slice(6);
         document.getElementById(fieldID).locked = true;
         setTableFieldScore();
@@ -214,51 +229,44 @@ function setTableFieldScore(){
 
 let currentlyChanging = false;
 let selectedScore = 1;
-let currentScores = {
-    throw1: {},
-    throw2: {},
-    throw3: {}
-}
+let currentScores = {};
 let inputDisabled = false;
-function setScore(field){ //------------so ändern, dass gesamte Logik auf Server ist -> nach jeder eingabe an Server schicken und dann antwort nutzen
+function setScore(field){
      
-    let fieldIndex = idValuePairs.id.findIndex((thisID)=>{return thisID == field;});
-    let fieldValue = idValuePairs.value[fieldIndex];
 
-    currentScores["throw" + selectedScore].field = field;
-    currentScores["throw" + selectedScore].score = fieldValue;
+    transferData("/setScore", "post", ({"scoreToSet": selectedScore, "field": field}))
+    .then((data)=>{
+        currentScores = data.turn;
+        
+        console.log(currentScores);
 
-
-    if(currentGame.scores[currentGame.currentTurn].doubleInLocked && !field.startsWith("2x")){
-        transferData("/setScore", "post", ({"scoreToSet": selectedScore, "field": field, "score": fieldValue, "locked": true}));
-        currentGame.scores[currentGame.currentTurn].doubleInLocked = false;
-    } else {
-        transferData("/setScore", "post", ({"scoreToSet": selectedScore, "field": field, "score": fieldValue, "locked": false}));
-  
-    }
+        if(!currentlyChanging && selectedScore < 3){
+            selectedScore++;
+        } else if(!currentlyChanging){
+            selectedScore = undefined;
+        } else if(!currentScores["throw1"]){
+            selectedScore = 1
+        } else if(!currentScores["throw2"]){
+            selectedScore = 2
+        } else if(!currentScores["throw3"]){
+            selectedScore = 3
+        } else {
+            selectedScore = undefined;
+        }
     
+        if((currentScores.throw1 && currentScores.throw2 && currentScores.throw3) || currentScores.overshoot || currentScores.finished){
+            document.getElementById("confirmTurn").style.display = "block";
+            selectedScore = undefined;
+        } else {
+            document.getElementById("confirmTurn").style.display = "none";
+        }
 
-    if(!currentlyChanging && selectedScore < 3){
-        selectedScore++;
-    } else if(!currentlyChanging){
-        selectedScore = undefined;
-    } else if(!currentScores["throw1"].score){
-        selectedScore = 1
-    } else if(!currentScores["throw2"].score){
-        selectedScore = 2
-    } else if(!currentScores["throw3"].score){
-        selectedScore = 3
-    } else {
-        selectedScore = undefined;
-    }
+        displayCurrentTurn();
 
-    if(currentScores["throw1"].score && currentScores["throw2"].score && currentScores["throw3"].score){
-        document.getElementById("confirmTurn").style.display = "block";
-    }
-
-    displayCurrentTurn();
-    
-    console.log(currentScores);
+    })
+    .catch(error=>{
+        console.log(error);
+    })
     
 }
 
@@ -275,8 +283,10 @@ function confirmTurn(){
     transferData("/confirmScore", "get")
     .then((data)=>{
         if(data.gameFinished){
-            endGame();
             clientUpdate();
+            currentGame = undefined;
+            changeMenuPoint("summarizeGame");
+            
         } else {
             currentScores = {
                 throw1: {},
