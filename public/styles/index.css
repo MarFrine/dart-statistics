@@ -1,133 +1,120 @@
 :root{
     --color_main: black;
     --color_interface: rgb(49, 49, 49);
-    --color_interface_dark: rgb(25,25,25);
+    --color_interface_dark: rgb(35,35,35);
     --color_interface_light: rgb(70,70,70);
     --color_highlights: rgb(120, 20, 120);
+    --color_highlights_bright: rgb(197, 36, 197);
+    --color_error: rgb(130, 0, 0);
+    --color_contrast: white;
 }
 
 body{
     background-color: var(--color_main);
-    color: white;
+    color: var(--color_contrast);
 }
 
+#contentContainer{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+}
 
+#content{
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1920px;
+    height: 1080px;
+    transform: translateX(-50%) translateY(-50%) scale(0.5);
+    background-color: var(--color_main);
+}
 
 #navigation{
     position: absolute;
     left: 0;
     top: 0;
-    height: 100%;
-    width: 15%;
+    height: 7%;
+    width: 100%;
     background-color: var(--color_interface);
+}
 
-    box-shadow: 0px 0px 30px 50px var(--color_interface);
-
+.navigationMenuButton{
+    position: relative;
+    top: 10%;
+    height: 80%;
+    left: 10px;
+    border-radius: 10px;
+    border: 2px solid var(--color_highlights); 
+}
+.navigationMenuButton:enabled{
+    background-color: var(--color_interface);
+    color: var(--color_contrast);
+    cursor: pointer;
+}
+.navigationMenuButton:disabled{
+    background-color: var(--color_interface_dark);
+    color: black;
+}
+.navigationMenuButton:hover:enabled{
+    background-color: var(--color_interface_light);
+}
+.navigationMenuButton:hover:disabled{
+    border: 2px solid var(--color_error);
 }
 
 #switchTheme{
     position: absolute;
-    bottom: 10px;
-    left: 10px;
+    top: 50%;
+    right: 10px;
     height: 50px;
     width: 50px;
+    transform: translateY(-50%);
     border-radius: 30%;
     border: 2px solid var(--color_highlights);
     background-color: var(--color_interface);
     cursor: pointer;
 }
-
 #switchTheme:hover{
     background-color: var(--color_interface_light);
 }
 
 #clientSync{
     position: absolute;
-    bottom: 10px;
-    left: 70px;
+    top: 50%;
+    right: 70px;
     height: 50px;
     width: 50px;
+    transform: translateY(-50%);
     border-radius: 30%;
     border: 2px solid var(--color_highlights);
     background-color: var(--color_interface);
     cursor: pointer;
 }
-
 #clientSync:hover{
     background-color: var(--color_interface_light);
 }
 
-
-#game{
-    display: none;
+.fullScreen{
     position: absolute;
-    right: 0;
+    left: 0;
+    top: 7%;
+    height: 93%;
+    width: 100%;
+}
+.realFullScreen{
+    position: absolute;
+    left: 0;
     top: 0;
     height: 100%;
-    width: 1400px;
-    background-color: var(--color_main);
+    width: 100%;
 }
-
-#inputGame{
-    display: none;
-}
-
-#dartboardInput{
-    display: block;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    height: 710px;
-    width: 710px;
-    transform: translateY(-50%) translateX(-50%);
-    
-}
-
-#inputBoard{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 710px;
-    height:710px;
-    transform: translateY(-50%) translateX(-50%);
-}
-
-.dartboardButton{
-    cursor: pointer;
-}
-
-#switchInputType{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 50px;
-    height: 50px;
-    transform: translateY(-420px) translateX(-50%);
-}
-
-#tableInput{
-    display: none;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    height: 700px;
-    width: 710px;
-    transform: translateY(-50%) translateX(-50%);
-    background-color: var(--color_interface);
-}
-
-#inputTableHead{
-    position: absolute;
-    top: 50%;
-    left: 55%;
-    width: 710px;
-    height: 150px;
-    transform: translateY(-350px) translateX(-50%);
-}
-
 
 #createGame{
-
     display: none;
     position: absolute;
     left: 50%;
@@ -136,7 +123,6 @@ body{
     width: 500px;
     transform: translateY(-50%) translateX(-50%);
     background-color: var(--color_interface);
-
 }
 
 #activePlayerList{
@@ -194,35 +180,6 @@ body{
 
 }
 
-#inputTurnOrder{
-    position: absolute;
-    left: 5px;
-    top: 50%;
-    height: 500px;
-    width: 300px;
-    transform: translateY(-50%);
-    background-color: var(--color_interface);
-}
-
-#inputCurrentTurn{
-    position: absolute;
-    right: 5px;
-    top: 50%;
-    height: 500px;
-    width: 300px;
-    transform: translateY(-50%);
-    background-color: var(--color_interface);
-}
-
-.inputTableNumberButton{
-    position: relative;
-    top: 200px;
-    left: 50px;
-    height: 120px;
-    width: 120px;
-    background-color: var(--color_interface);
-}
-
 #inputGameBlock{
     position: absolute;
     top: 0px;
@@ -231,4 +188,71 @@ body{
     height: 100%;
     background-color: black;
     z-index: 100;
+}
+
+#gameStats{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 100;
+}
+
+#gameStatisticDiv{
+    position: absolute;
+    top: 50%;
+    left: 50px;
+    width: 1400px;
+    height: 800px;
+    transform: translateY(-50%);
+}
+#gameResultsDiv{
+    position: absolute;
+    top: 50%;
+    right: 50px;
+    width: 400px;
+    height: 800px;
+    transform: translateY(-50%);
+    background-color: var(--color_interface);
+}
+
+#ongoingGameDiv{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30%;
+    height: 90%;
+    transform: translateY(-50%) translateX(-130%);
+    border: 3px solid var(--color_highlights);
+    border-radius: 10px;
+    text-align: center;
+}
+
+#allGamesDiv{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30%;
+    height: 90%;
+    transform: translateY(-50%) translateX(30%);
+    border: 3px solid var(--color_highlights);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.ongoingGameSubpoints{
+    position: relative;
+    margin-top: 70px;
+    left: 50%;
+    top: 0;
+    width: 70%;
+    height: 20%;
+    transform: translateX(-50%);
+    border: 1px solid var(--color_contrast);
+}
+.ongoingGameSubpoints:hover{
+    cursor: pointer;
+    background-color: var(--color_interface_dark);
 }

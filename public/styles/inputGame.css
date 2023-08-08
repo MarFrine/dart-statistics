@@ -1,0 +1,251 @@
+#inputBoard{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 816px;
+    height: 816px;
+    transform: translateY(-50%) translateX(-50%);
+}
+.dartboardButton{
+    cursor: pointer;
+}
+
+.inputBoardNumber{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 40px;
+    text-align: center;
+    line-height: 0px;
+    color: var(--color_contrast);
+}
+#inputBoardNumber20{
+    transform: translateY(calc(-50% - 420px)) translateX(-50%);
+}
+#inputBoardNumber3{
+    transform: translateY(calc(-50% + 420px)) translateX(-50%);
+}
+#inputBoardNumber11{
+    transform: translateY(-50%) translateX(calc(-50% - 420px));
+}
+#inputBoardNumber6{
+    transform: translateY(-50%) translateX(calc(-50% + 420px));
+}
+#inputBoardNumber13{
+    transform: translateY(calc(-50% - 130px)) translateX(calc(-50% + 400px));
+}
+#inputBoardNumber14{
+    transform: translateY(calc(-50% - 130px)) translateX(calc(-50% - 400px));
+}
+#inputBoardNumber8{
+    transform: translateY(calc(-50% + 130px)) translateX(calc(-50% - 400px));
+}
+#inputBoardNumber10{
+    transform: translateY(calc(-50% + 130px)) translateX(calc(-50% + 400px));
+}
+#inputBoardNumber5{
+    transform: translateY(calc(-50% - 400px)) translateX(calc(-50% - 130px));
+}
+#inputBoardNumber1{
+    transform: translateY(calc(-50% - 400px)) translateX(calc(-50% + 130px));
+}
+#inputBoardNumber19{
+    transform: translateY(calc(-50% + 400px)) translateX(calc(-50% - 130px));
+}
+#inputBoardNumber17{
+    transform: translateY(calc(-50% + 400px)) translateX(calc(-50% + 130px));
+}
+#inputBoardNumber12{
+    transform: translateY(calc(-50% - 345px)) translateX(calc(-50% - 245px));
+}
+#inputBoardNumber18{
+    transform: translateY(calc(-50% - 345px)) translateX(calc(-50% + 245px));
+}
+#inputBoardNumber7{
+    transform: translateY(calc(-50% + 345px)) translateX(calc(-50% - 245px));
+}
+#inputBoardNumber2{
+    transform: translateY(calc(-50% + 345px)) translateX(calc(-50% + 245px));
+}
+#inputBoardNumber9{
+    transform: translateY(calc(-50% - 245px)) translateX(calc(-50% - 345px));
+}
+#inputBoardNumber4{
+    transform: translateY(calc(-50% - 245px)) translateX(calc(-50% + 345px));
+}
+#inputBoardNumber16{
+    transform: translateY(calc(-50% + 245px)) translateX(calc(-50% - 345px));
+}
+#inputBoardNumber15{
+    transform: translateY(calc(-50% + 245px)) translateX(calc(-50% + 345px));
+}
+
+
+
+#switchInputType{
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    transform: translateX(-50%);
+}
+
+#tableInput{
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 900px;
+    height: 850px;
+    transform: translateY(-50%) translateX(-50%);
+    background-color: var(--color_interface);
+}
+
+#inputTableHead{
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    width: 700px;
+    height: 240px;
+    transform: translateX(calc(-50% - 50px));
+}
+
+.inputTableNumberButton{
+    position: relative;
+    top: 200px;
+    left: 50px;
+    right: 50px;
+    height: 155px;
+    width: 155px;
+    background-color: var(--color_interface_light);
+    border: 1px solid var(--color_highlights);
+    color: var(--color_contrast);
+}
+
+.inputTableNumberButton:hover{
+    cursor: pointer;
+    border: 1px solid var(--color_highlights_bright);
+}
+
+#missedBoardButton{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 50px;
+    width: 50px;
+    transform: translateY(-360px) translateX(calc(395px - 100%));
+    background-color: var(--color_interface);
+    border: 3px solid var(--color_highlights);
+    border-radius: 10px;
+}
+#missedBoardButton:hover{
+    background-color: var(--color_interface_light);
+    border: 3px solid var(--color_highlights_bright);
+    cursor: pointer;
+}
+
+#inputTurnOrder{
+    position: absolute;
+    left: 30px;
+    top: 50%;
+    height: 600px;
+    width: 400px;
+    transform: translateY(-50%);
+    background-color: var(--color_interface);
+}
+
+#inputCurrentTurn{
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    height: 600px;
+    width: 400px;
+    transform: translateY(-50%);
+    background-color: var(--color_interface);
+    text-align: center;
+}
+#inputCurrentTurnName{
+    position: absolute;
+    left: 0px;
+    top: 00px;
+    height: 60px;
+    width: 100%;
+    
+}
+#inputCurrentTurnTotalScore{
+    position: absolute;
+    left: 0px;
+    top: 60px;
+    height: 40px;
+    width: 100%;
+    
+}
+#throw1Text{
+    position: absolute;
+    left: 0px;
+    top: 140px;
+    height: 50px;
+    width: 100%;
+    
+}
+#editThrow1{
+    position: absolute;
+    left: 50%;
+    top: 190px;
+    height: 30px;
+    width: 40%;
+    transform: translateX(-50%);
+    
+}
+#throw2Text{
+    position: absolute;
+    left: 0px;
+    top: 250px;
+    height: 50px;
+    width: 100%;
+    
+}
+#editThrow2{
+    position: absolute;
+    left: 50%;
+    top: 300px;
+    height: 30px;
+    width: 40%;
+    transform: translateX(-50%);
+    
+}
+#throw3Text{
+    position: absolute;
+    left: 0px;
+    top: 360px;
+    height: 50px;
+    width: 100%;
+    
+}
+#editThrow3{
+    position: absolute;
+    left: 50%;
+    top: 410px;
+    height: 30px;
+    width: 40%;
+    transform: translateX(-50%);
+    
+}
+#turnTotalScore{
+    position: absolute;
+    left: 0px;
+    top: 480px;
+    height: 50px;
+    width: 100%;
+    
+}
+#confirmTurn{
+    position: absolute;
+    left: 50%;
+    top: 550px;
+    height: 50px;
+    width: 60%;
+    transform: translateX(-50%);   
+}

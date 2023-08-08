@@ -1,6 +1,6 @@
 module.exports = class ServerSideGame {
     constructor(currentAccount, type, subtype, playerList, specifications, editingClient) {
-        this.id = currentAccount.data.totalGames + 1;
+        this.id = currentAccount.data.totalGames;
         this.playerList = playerList;
         this.playerCount = this.playerList.length;
         if(type == "firstToX"){
@@ -29,7 +29,7 @@ module.exports = class ServerSideGame {
 
         this.active = true;
         this.currentlyEdited = editingClient;
-        this.editingTimeout = setTimeout(()=>{this.currentlyEdited = 0}, 10000);
+        this.editingTimeout = setTimeout(()=>{this.currentlyEdited = 0}, 5000);
     }
 
     getEditor(clientID){
@@ -37,7 +37,7 @@ module.exports = class ServerSideGame {
         if(this.currentlyEdited == 0 || this.currentlyEdited == clientID){
             this.currentlyEdited = clientID;
             clearTimeout(this.editingTimeout);
-            this.editingTimeout = setTimeout(()=>{this.currentlyEdited = 0}, 10000);
+            this.editingTimeout = setTimeout(()=>{this.currentlyEdited = 0}, 5000);
         }
 
         return this.currentlyEdited;
@@ -256,7 +256,8 @@ module.exports = class ServerSideGame {
         }
     }
 
-    finish(fs, currentAccount, currentGames) {
+    finish(fs, currentAccount, currentGames, completeData) {
+        delete currentGames[currentAccount.username];
         let newData = this;
         delete newData.currentTurn;
         delete newData.currentRound;
@@ -264,25 +265,23 @@ module.exports = class ServerSideGame {
         delete newData.active;
         delete newData.currentlyEdited;
         delete newData.editingTimeout;
+        newData.playerList.forEach(thisPlayer => {
+            delete newData.scores[thisPlayer].tempScore;
+        });
 
-        fs.readFile("./data.json", "utf8", (error, data) => {
-            if (error) { console.log(error); }
-            else {
-                let completeData = JSON.parse(data);
-                let accountIndex = completeData.findIndex((thisAccount) => { return thisAccount.username == currentAccount.username });
-                completeData[accountIndex].data.games.push(newData);
+        let accountIndex = completeData.findIndex((thisAccount) => { return thisAccount.username == currentAccount.username });
+        completeData[accountIndex].data.games.push(newData);
+        completeData[accountIndex].data.totalGames = completeData[accountIndex].data.games.length;
 
-                fs.writeFile("./data.json", JSON.stringify(completeData), (error) => {
-                    if (error) {
-                        console.log(error)
-                    } else {
-                        console.log("file saved succesfully");
-                        delete currentGames[currentAccount.username];
-                        console.log("endGame");
-                    }
-                });
+        fs.writeFile("./data.json", JSON.stringify(completeData), (error) => {
+            if (error) {
+                console.log(error)
+            } else {
+                console.log("file saved succesfully");
             }
-        })
+        });
+
+        return completeData;
     }
 
     stop(currentAccount, currentGames) {

@@ -15,12 +15,6 @@ app.use(express.static("./public"));
 app.use(express.urlencoded({ extended:false }));
 app.use(express.json());
 
-fs.readFile("./data.json", "utf8", (error,data)=>{
-    if(error){console.log(error);}
-    else {
-        return completeData = JSON.parse(data);
-    }
-});
 fs.readFile("./id_value.json", "utf8", (error,data)=>{
     if(error){console.log(error);}
     else {
@@ -28,20 +22,35 @@ fs.readFile("./id_value.json", "utf8", (error,data)=>{
     }
 });
 
+const accountUsername = "test";
+
+let completeData;
 let currentAccount;
 let currentAccountData;
+
+function getCompleteData(){
+    fs.readFile("./data.json", "utf8", (error,data)=>{
+        if(error){console.log(error);}
+        else {
+            completeData = JSON.parse(data);
+            currentAccount = JSON.parse(data).find((thisAccount)=>{return thisAccount.username == accountUsername});
+            currentAccountData = currentAccount.data
+        }
+    });
+}
+getCompleteData();
+
+
 let clientIDs = [];
 
 app.post("/login", (req, res)=>{
-    let account = completeData.find((thisAccount)=>{return thisAccount.username == req.body.username});
-    if(!account){
+    console.log(req.rawHeaders[req.rawHeaders.findIndex((thisElement)=>{return thisElement == "User-Agent"})+1])
+    if(!req.body.username == accountUsername){
         res.status(401).json({"success": false, "error":"username", "reason": "account doesn't exist"});
-    } else if(account.password == req.body.password){
+    } else if(req.body.password == currentAccount.password){
         let newClientID = clientIDs.length + 1;
         clientIDs.push(newClientID);
-        res.status(200).json({"success": true, "data": account.data, "clientID": newClientID});
-        currentAccount = account;
-        currentAccountData = account.data;
+        res.status(200).json({"success": true, "clientID": newClientID});
     } else {
         res.status(401).send({"success": false, "error":"password", "reason": "wrong password"});
     }
@@ -50,33 +59,50 @@ app.post("/login", (req, res)=>{
 
 let currentGames = {};
 
-function gameInfo(){
-    return {
-        "playerList": currentGames[currentAccount.username].playerList,
-        "playerCount": currentGames[currentAccount.username].playerCount,
-        "type": currentGames[currentAccount.username].type,
-        "subtype": currentGames[currentAccount.username].subtype,
-        "currentRound": currentGames[currentAccount.username].currentRound,
-        "roundString": currentGames[currentAccount.username].roundString,
-        "currentTurn": currentGames[currentAccount.username].currentTurn,
-        "scores": currentGames[currentAccount.username].scores
-    };
+function gameInfo(currentGame, gameID){
+    if(currentGame){
+        return {
+            "playerList": currentGames[currentAccount.username].playerList,
+            "playerCount": currentGames[currentAccount.username].playerCount,
+            "type": currentGames[currentAccount.username].type,
+            "subtype": currentGames[currentAccount.username].subtype,
+            "currentRound": currentGames[currentAccount.username].currentRound,
+            "roundString": currentGames[currentAccount.username].roundString,
+            "currentTurn": currentGames[currentAccount.username].currentTurn,
+            "scores": currentGames[currentAccount.username].scores
+        };
+    } else {
+        return {
+            "playerList": currentAccountData.games[gameID].playerList,
+            "playerCount": currentAccountData.games[gameID].playerCount,
+            "type": currentAccountData.games[gameID].type,
+            "subtype": currentAccountData.games[gameID].subtype,
+            "currentRound": currentAccountData.games[gameID].currentRound,
+            "roundString": currentAccountData.games[gameID].roundString,
+            "currentTurn": currentAccountData.games[gameID].currentTurn,
+            "scores": currentAccountData.games[gameID].scores
+        };
+    }
+    
 }
 
 app.get("/clientUpdate", (req, res)=>{
     console.log("updateRequest");
     if(currentGames[currentAccount.username]){
-        res.status(200).send({"activeGame": true, "game": gameInfo()});
+        res.status(200).send({"activeGame": true, "game": gameInfo(true), "account": currentAccountData});
     } else {
-        res.status(200).send({"activeGame": false});
-    }
-    
+        res.status(200).send({"activeGame": false, "lastGame": gameInfo(false, currentAccountData.games.length-1), "account": currentAccountData});
+    } 
 });
+
+app.get("/getAccountData", (req,res)=>{
+    res.status(200).send({"account": currentAccountData});
+})
 
 app.post("/createGame", (req, res)=>{
     if(!currentGames[currentAccount.username]){
         currentGames[currentAccount.username] = new ServerSideGame(currentAccount, req.body.type, req.body.subtype, req.body.players, req.body.specifications, req.body.clientID);
-        res.status(200).send(gameInfo());
+        res.status(200).send(gameInfo(true));
     } else {
         console.log("already in game");
         res.status(409).send({"error": "already in game"});
@@ -94,28 +120,37 @@ app.get("/confirmScore", (req,res)=>{
     nextTurnEvent = currentGames[currentAccount.username].nextTurn(currentAccount);
 
     if(nextTurnEvent == "endGame"){
-        currentGames[currentAccount.username].finish(fs, currentAccount, currentGames);
-        res.status(200).send({"gameFinished": true});
+        res.status(200).send({"gameFinished": true, "completeGame": gameInfo(true)});
+        completeData = currentGames[currentAccount.username].finish(fs, currentAccount, currentGames, completeData);
+        currentAccount = completeData.find((thisAccount)=>{return thisAccount.username == accountUsername});
+        currentAccountData = currentAccount.data
     } else {
         res.status(200).send({"currentTurn": currentGames[currentAccount.username].currentTurn});
     }
 });
 
 app.post("/newPerson", (req, res)=>{
-  console.log(req.body);
   if(currentAccountData.people.find((thisPerson)=>{return thisPerson.name == req.body.name})){
     //name already taken
     res.status(400).send({"error": "name taken"});
   } else {
-    let newPlayer = new person.ServerSidePerson(req.body.name, fs, currentAccount);
-    res.status(200).send({"name": newPlayer.name});
+    completeData = new ServerSidePerson.person(req.body.name, fs, currentAccount, completeData);
+    currentAccount = completeData.find((thisAccount)=>{return thisAccount.username == accountUsername});
+    currentAccountData = currentAccount.data;
+    console.log(currentAccountData.people);
+    res.status(200).send({"name": req.body.name, "accountData": currentAccountData});
   }
   
 });
 
 
 app.post("/currentlyEditing", (req,res)=>{
-    let currentEditor = currentGames[currentAccount.username].getEditor(req.body.clientID);
-    res.status(200).send({"currentEditor": currentEditor});
+    if(!currentGames[currentAccount.username]){
+        res.status(400).send({"error": "no current Game"});
+    } else {
+        let currentEditor = currentGames[currentAccount.username].getEditor(req.body.clientID);
+        res.status(200).send({"currentEditor": currentEditor});
+    }
+    
 })
 

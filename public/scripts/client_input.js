@@ -26,6 +26,7 @@ for(let i = 0; i < inputTableNumberButtons.length; i++){
         clickNumberField(inputTableNumberButtons[i].id);
     })
 }
+let tableInputTypeButtons = document.getElementsByClassName("tableInputTypeButton");
 
 
 let dartColors = [
@@ -87,12 +88,12 @@ function displayTurnOrder(){
     for(let i = 0; i < currentGame.playerCount; i++){
         if(currentGame.currentTurn != currentGame.playerList[i]){
             if(currentGame.scores[currentGame.playerList[i]].finished){
-                turnOrderString = turnOrderString + "<font color='blue'>" + currentGame.playerList[i] + "</font><br>";
+                turnOrderString = turnOrderString + "<font color='blue'>" + currentGame.playerList[i]  + " -- " + currentGame.scores[currentGame.playerList[i]].totalScore + "</font><br>";
             } else {
-                turnOrderString = turnOrderString + currentGame.playerList[i] + "<br>";
+                turnOrderString = turnOrderString + currentGame.playerList[i]  + " -- " + currentGame.scores[currentGame.playerList[i]].totalScore + "<br>";
             }
         } else {
-            turnOrderString = turnOrderString + "<font size='+3' color='gold'>" + currentGame.playerList[i] + "</font><br>";
+            turnOrderString = turnOrderString + "<font size='+3' color='gold'>" + currentGame.playerList[i]  + " -- " + currentGame.scores[currentGame.playerList[i]].totalScore + "</font><br>";
         }
         
     }
@@ -110,7 +111,8 @@ function displayTurnOrder(){
 
 function displayCurrentTurn(){
     
-    document.getElementById("inputCurrentTurnName").innerHTML = "<h1>" + currentGame.currentTurn + "  --  " + currentGame.scores[currentGame.currentTurn].totalScore + "</h1>";
+    document.getElementById("inputCurrentTurnName").innerHTML = "<h1>" + currentGame.currentTurn + "</h1>";
+    document.getElementById("inputCurrentTurnTotalScore").innerHTML = "<h2>" + currentGame.scores[currentGame.currentTurn].totalScore + "</h2>"
     console.log(currentScores)
     let currentScore = 0;
     for(let i = 1; i <= 3; i++){
@@ -119,20 +121,20 @@ function displayCurrentTurn(){
             color = "yellow";
         }
         if(currentScores["throw" + i]){
-            if(currentScores["throw" + i].locked && i != selectedScore){
+            if((currentScores["throw" + i].locked || currentScores["throw" + i].field == "miss") && i != selectedScore){
                 color = "red";
             }
-            document.getElementById("throw" + i + "Text").innerHTML = "<font color='" + color + "' >Throw " + i + ": " + currentScores["throw" + i].value + "</font>";
+            document.getElementById("throw" + i + "Text").innerHTML = "<font color='" + color + "' ><h2>Wurf " + i + ": " + currentScores["throw" + i].value + "</h2></font>";
             document.getElementById("editThrow" + i).style.display = "block";
             if(!currentScores["throw" + i].locked){
                 currentScore += currentScores["throw" + i].value;
             }
         } else {
-            document.getElementById("throw" + i + "Text").innerHTML = "<font color='" + color + "' >Throw " + i + ": </font>";
+            document.getElementById("throw" + i + "Text").innerHTML = "<font color='" + color + "' ><h2>Wurf " + i + ": </h2></font>";
             document.getElementById("editThrow" + i).style.display = "none";
         }
     }
-    document.getElementById("turnTotalScore").innerHTML = "Current score: " + currentScore;
+    document.getElementById("turnTotalScore").innerHTML = "<h2>Gesamt: " + currentScore + "</h2>";
 }
 
 
@@ -167,7 +169,7 @@ function clickTypeField(fieldID){
     if((inputDisabled || !selectedScore) && fieldID){
         return;
     }
-    let tableInputTypeButtons = document.getElementsByClassName("tableInputTypeButton");
+
     for(let i = 0; i < tableInputTypeButtons.length; i++){
         tableInputTypeButtons[i].locked = false;
     }
@@ -191,11 +193,11 @@ function clickNumberField(fieldID){
     
 
     for(let i = 0; i < inputTableNumberButtons.length; i++){
-        inputTableNumberButtons[i].style.backgroundColor = "transparent";
+        inputTableNumberButtons[i].style.backgroundColor = "var(--color_interface_light)";
     }
     if(fieldID){
         tableFieldNumber = document.getElementById(fieldID).value;
-        document.getElementById(fieldID).style.backgroundColor = "white";
+        document.getElementById(fieldID).style.backgroundColor = "var(--color_interface_dark)";
         setTableFieldScore();
     }
 }
@@ -283,9 +285,9 @@ function confirmTurn(){
     transferData("/confirmScore", "get")
     .then((data)=>{
         if(data.gameFinished){
-            clientUpdate();
+            drawGameStatistic(data.completeGame);
             currentGame = undefined;
-            changeMenuPoint("summarizeGame");
+            
             
         } else {
             currentScores = {

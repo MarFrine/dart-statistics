@@ -64,7 +64,7 @@ creationForm.addEventListener("input", (change)=>{
     } else if(change.target.name == "gameTypeExtra"){
         newGameRules.subtype = change.target.value;
         if(newGameRules.type == "xThrows"){
-            document.getElementById("throwSliderLabel").innerHTML = newGameRules.subtype + " Throws";
+            document.getElementById("throwSliderLabel").innerHTML = newGameRules.subtype + " Würfe";
         }
     } else if(change.target.name == "gameRules"){
         if(change.target.checked){
@@ -96,6 +96,7 @@ function resetCreationForm(){
 
     document.getElementById("throwSlider").style.display = "block";
     document.getElementById("throwSliderLabel").style.display = "block";
+    document.getElementById("throwSliderLabel").innerHTML = "10 Würfe";
 
     document.getElementById("createGameButton").disabled = true;
 
@@ -125,6 +126,7 @@ function removePlayer(buttonObject){
 }
 
 function updatePlayerList(){
+    console.log(accountData)
     if(newGameRules.players.length == 0){
         document.getElementById("createGameButton").disabled = true;
     } else {
@@ -155,10 +157,9 @@ function updatePlayerList(){
 }
 
 let currentGame = undefined;
-function createNewGame(event, formElement){
+function createNewGame(event){
     event.preventDefault();
 
-    //newGame = new Game(newGameRules.type, newGameRules.subtype, newGameRules.players, newGameRules.specifications);
     transferData("/createGame", "post", {"type": newGameRules.type, "subtype": newGameRules.subtype, "players": newGameRules.players, "specifications":newGameRules.specifications, "clientID": clientID})
     .then((data)=>{
         currentGame = data;

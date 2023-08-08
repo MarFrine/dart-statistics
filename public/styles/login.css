@@ -5,7 +5,7 @@
     width: 100%;
     height: 100%;
     background-color: black;
-    z-index: 100;
+    z-index: 1000;
 }
 
 #loginField{
@@ -84,4 +84,27 @@
     line-height: 0px;
     text-align: center;
     display: none;
+}
+
+
+#skipLogin{
+    position: absolute;
+    width: 250px;
+    height: 50px;
+    top: 50%;
+    left: 50%;
+    transform: translateY(calc(-50% - 220px)) translateX(-50%);
+    background-image: linear-gradient(to bottom right, black, rgba(61, 6, 61, 0.8));
+    border: 2px solid rgb(100, 100, 100);
+    border-radius: 20px;
+
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 50px;
+    text-align: center;
+}
+#skipLogin:hover{
+    cursor: pointer;
+    color: rgba(255, 255, 255, 1);
+    border: 2px solid rgb(150, 150, 150);
+    background-image: linear-gradient(to bottom right, black, rgb(61, 6, 61, 1));
 }
