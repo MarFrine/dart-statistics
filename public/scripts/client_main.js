@@ -2,7 +2,7 @@ let currentTheme = "dark";
 function switchTheme() {
     if (currentTheme == "dark") {
         document.documentElement.style.setProperty("--color_main", "white");
-        document.documentElement.style.setProperty("--color_interface", "rgb(130, 130, 130)");
+        document.documentElement.style.setProperty("--color_interface", "rgb(170, 170, 170)");
         document.documentElement.style.setProperty("--color_interface_dark", "rgb(100,100,100)");
         document.documentElement.style.setProperty("--color_interface_light", "rgb(180,180,180)");
         document.documentElement.style.setProperty("--color_highlights", "rgb(16, 120, 50)");
@@ -10,6 +10,8 @@ function switchTheme() {
         document.documentElement.style.setProperty("--color_contrast", "black");
 
         document.getElementById("themeImage").src = "img/light.png";
+        document.getElementById("syncServerImage").src = "img/syncServer_light.png";
+        document.getElementById("missImage").src = "img/switchInputType_light.png";
 
         currentTheme = "light";
     } else {
@@ -21,7 +23,9 @@ function switchTheme() {
         document.documentElement.style.setProperty("--color_highlights_bright", "rgb(197, 36, 197)");
         document.documentElement.style.setProperty("--color_contrast", "white");
 
-        document.getElementById("themeImage").src = "img/dark.png"
+        document.getElementById("themeImage").src = "img/dark.png";
+        document.getElementById("syncServerImage").src = "img/syncServer_dark.png";
+        document.getElementById("missImage").src = "img/switchInputType_dark.png";
 
         currentTheme = "dark"
     }

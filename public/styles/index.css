@@ -180,15 +180,6 @@ body{
 
 }
 
-#inputGameBlock{
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    background-color: black;
-    z-index: 100;
-}
 
 #gameStats{
     position: absolute;
@@ -196,7 +187,7 @@ body{
     left: 0px;
     width: 100%;
     height: 100%;
-    background-color: black;
+    background-color: var(--color_interface);
     z-index: 100;
 }
 
@@ -206,16 +197,35 @@ body{
     left: 50px;
     width: 1400px;
     height: 800px;
+    border: 1px solid var(--color_contrast);
     transform: translateY(-50%);
 }
+
 #gameResultsDiv{
     position: absolute;
     top: 50%;
     right: 50px;
     width: 400px;
     height: 800px;
+    border: 1px solid var(--color_contrast);
     transform: translateY(-50%);
-    background-color: var(--color_interface);
+}
+#gameResultsTitle{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 50px;
+    text-align: center;
+}
+#gameResultsRanking{
+    position: absolute;
+    top: 150px;
+    left: 0px;
+    width: 100%;
+    height: 600px;
+    text-align: center;
+    overflow-y: scroll;
 }
 
 #ongoingGameDiv{
@@ -254,5 +264,106 @@ body{
 }
 .ongoingGameSubpoints:hover{
     cursor: pointer;
+    background-color: var(--color_interface);
+}
+
+.allGamesSubpoints{
+    position: relative;
+    margin-top: 70px;
+    left: 50%;
+    top: 0;
+    width: 70%;
+    height: 20%;
+    transform: translateX(-50%);
+    border: 1px solid var(--color_contrast);
+}
+.allGamesSubpoints:hover{
+    cursor: pointer;
+    background-color: var(--color_interface);
+}
+
+#allGamesGameListDiv{
+    overflow-y: scroll;
+}
+
+.clickableText{
+    cursor: pointer;
+    background-size: cover;
+}
+.clickableText:hover{
+    background-color: rgba(255,255,255,0.1);
+}
+
+#newPlayerDiv{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30%;
+    height: 90%;
+    transform: translateY(-50%) translateX(-130%);
+    border: 3px solid var(--color_highlights);
+    border-radius: 10px;
+    text-align: center;
+}
+#showImageDiv{
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    height: 200px;
+    width: 200px;
+    transform: translateX(-50%);
+    border: 3px solid var(--color_highlights);
+    border-radius: 10px;
+    text-align: center;
+    overflow-x: hidden;
+}
+#createPlayerButton{
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    width: 30%;
+    height: 5%;
+    transform: translateX(-50%);
     background-color: var(--color_interface_dark);
+    border: 1px solid var(--color_highlights);
+    border-radius: 10px;
+    color: var(--color_contrast);
+    text-align: center;
+    cursor: pointer;
+}
+#createPlayerButton:hover{
+    background-color: var(--color_interface);
+    border: 3px solid var(--color_highlights_bright);
+}
+
+#allPlayersDiv{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30%;
+    height: 90%;
+    transform: translateY(-50%) translateX(30%);
+    border: 3px solid var(--color_highlights);
+    border-radius: 10px;
+    text-align: center;
+}
+#allPlayersListDiv{
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    width: 70%;
+    height: 60%;
+    border: 2px solid var(--color_highlights);
+    border-radius: 10px;
+    text-align: center;
+}
+#allPlayersAlltimeStatsDiv{
+    position: absolute;
+    top: 80%;
+    left: 15%;
+    width: 70%;
+    height: 15%;
+    border: 2px solid var(--color_highlights);
+    border-radius: 10px;
+    text-align: center;
 }

@@ -22,18 +22,17 @@ async function sendLoginData(event, formElement){
             await clientUpdate();
             document.getElementById("loginError").style.display = "none";
             document.getElementById("loginContentBlock").style.display = "none";
+            changeMenuPoint("gameMainMenu");
             return clientID = data.clientID;
         }
     });
 }
 
 
-function skipLogin(){
-    console.log("test");
+async function skipLogin(){
     document.getElementById("loginError").style.display = "none";
     document.getElementById("loginContentBlock").style.display = "none";
-    clientUpdate();
-    document.getElementById("inputGameNavButton").disabled = true;
-    document.getElementById("createGameNavButton").disabled = true;
-
+    await clientUpdate();
+    await getAccountData();
+    changeMenuPoint("gameMainMenu");
 }

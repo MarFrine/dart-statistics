@@ -43,45 +43,47 @@
     <div id="contentContainer">
         <div id="content">
             <div id="navigation">
-                <button class="navigationMenuButton" id="mainMenuNavButton"
-                    onclick="changeMenuPoint('mainMenu')">Hauptmenü</button>
-                <button class="navigationMenuButton" id="gameNavButton" onclick="changeMenuPoint('game')">Spiel</button>
-                <button class="navigationMenuButton" id="createGameNavButton"
-                    onclick="changeMenuPoint('createGame')">Spiel:erstellen</button>
-                <button class="navigationMenuButton" id="inputGameNavButton"
-                    onclick="changeMenuPoint('inputGame')">Spiel:eintragen</button>
-                <button class="navigationMenuButton" id="watchGameNavButton"
-                    onclick="changeMenuPoint('watchGame')">Spiel:anschauen</button>
+                <button class="navigationMenuButton" id="gameNavButton"
+                    onclick="changeMenuPoint('gameMainMenu')">Spiel</button>
                 <button class="navigationMenuButton" id="personNavButton"
-                    onclick="changeMenuPoint('person')">Spieler</button>
+                    onclick="changeMenuPoint('playerMainMenu')">Spieler</button>
 
-                <button id="switchTheme" onclick="switchTheme()"><img id="themeImage" src="img/dark.png" width="100%"
-                        height="100%"></button>
-                <button id="clientSync" onclick="clientUpdate()">sync</button>
+                <button id="switchTheme" onclick="switchTheme()">
+                    <img id="themeImage" src="img/dark.png" width="100%" height="100%">
+                </button>
+                <button id="clientSync" onclick="syncServer()">
+                    <img id="syncServerImage" src="img/syncServer_dark.png" width="100%" height="100%">
+                </button>
             </div>
 
-            <div class="fullScreen" id="mainMenu"></div>
-            <div class="fullScreen" id="game" style="display: none;">
+            <div class="fullScreen" id="game">
                 <div id="gameMainMenu" class="realFullScreen gameSubpoint">
                     <div id="ongoingGameDiv">
                         <h1>laufendes Spiel</h1>
-                        <div class="ongoingGameSubpoints" disabled>Spiel anschauen</div>
-                        <div class="ongoingGameSubpoints" disabled>Spiel eingeben</div>
-                        <div class="ongoingGameSubpoints" enabled>Spiel erstellen</div>
+                        <div class="ongoingGameSubpoints" onclick="changeMenuPoint('watchGame')">Spiel anschauen</div>
+                        <div class="ongoingGameSubpoints" onclick="changeMenuPoint('inputGame')">Spiel eingeben</div>
+                        <div class="ongoingGameSubpoints" onclick="changeMenuPoint('createGame')">Spiel erstellen</div>
                     </div>
                     <div id="allGamesDiv">
-                        <div>alle Spiele</div>
-                        <div>alltime Spielstatistiken</div>
+                        <h1>alle Spiele</h1>
+                        <div class="allGamesSubpoints" id="allGamesLastGameDiv"
+                            onclick="showGameStatistic(accountData.games[accountData.games.length-1])">letztes Spiel
+                        </div>
+                        <div class="allGamesSubpoints" id="allGamesGameListDiv">alle Spiele</div>
+                        <div class="allGamesSubpoints" id="allGamesAlltimeStatsDiv">alltime Spielstatistiken</div>
                     </div>
                 </div>
-                <div id="gameStats" class="realFullScreen gameSubpoint">
+                <div id="gameStats" class="realFullScreen gameSubpoint" style="display: none;">
                     <div id="gameStatisticDiv"></div>
-                    <div id="gameResultsDiv"></div>
+                    <div id="gameResultsDiv">
+                        <div id="gameResultsTitle"></div>
+                        <div id="gameResultsRanking"></div>
+                    </div>
                 </div>
                 <div class="realFullScreen gameSubpoint" id="createGame" style="display: none;">
                     <div id="activePlayerList"></div>
                     <div id="inactivePlayerList"></div>
-                    <button id="newPlayer_CreateGame">neuer Spieler</button>
+                    <button id="newPlayer_CreateGame" onclick="changeMenuPoint('playerMainMenu')">neuer Spieler</button>
                     <form id="createGameForm" onsubmit="createNewGame(event, this)">
                         -----<br>
                         <input type="radio" id="xThrows" name="gameType" value="xThrows" checked>
@@ -91,8 +93,7 @@
 
                         <input type="radio" id="firstToX" name="gameType" value="firstToX">
                         <label for="firstToX">firstToX</label><br><br>
-                        <input type="radio" id="firstTo301" name="gameTypeExtra" value="301" checked
-                            style="display: none;">
+                        <input type="radio" id="firstTo301" name="gameTypeExtra" value="301" checked style="display: none;">
                         <label for="firstTo301" id="firstTo301Label" style="display: none;">first To 301</label><br>
                         <input type="radio" id="firstTo501" name="gameTypeExtra" value="501" style="display: none;">
                         <label for="firstTo501" id="firstTo501Label" style="display: none;">first To 501</label><br>
@@ -110,10 +111,9 @@
                     </form>
                 </div>
                 <div class="realFullScreen gameSubpoint" id="watchGame" style="display: none;">
-                
+
                 </div>
                 <div class="realFullScreen gameSubpoint" id="inputGame" style="display: none;">
-                    <div id="inputGameBlock"></div>
                     <div id="inputTurnOrder">
                         <div id="inputTurnInfo">Runde: 3/10</div>
                         <div id="inputTurnOrderDiv"></div>
@@ -127,7 +127,32 @@
                         <button id="editThrow2" style="display: none;" onclick="changeScore(2)">Ändern</button>
                         <div id="throw3Text">Wurf 3:</div>
                         <button id="editThrow3" style="display: none;" onclick="changeScore(3)">Ändern</button>
-                        <div id="turnTotalScore"></div>
+                        <div id="inputCurrentTurnDouble" style="display: none;">
+                            <div id="double1Div">
+                                <div id="double1Name"></div>
+                                <div id="double1throw1Text">Wurf 1:</div>
+                                <button id="double1editThrow1" style="display: none;"
+                                    onclick="changeScore(1)">Ändern</button>
+                                <div id="double1throw2Text">Wurf 2:</div>
+                                <button id="double1editThrow2" style="display: none;"
+                                    onclick="changeScore(2)">Ändern</button>
+                                <div id="double1throw3Text">Wurf 3:</div>
+                                <button id="double1editThrow3" style="display: none;"
+                                    onclick="changeScore(3)">Ändern</button>
+                            </div>
+                            <div id="double2Div">
+                                <div id="double2Name"></div>
+                                <div id="double2throw1Text">Wurf 1:</div>
+                                <button id="double2editThrow1" style="display: none;"
+                                    onclick="changeScore(1)">Ändern</button>
+                                <div id="double2throw2Text">Wurf 2:</div>
+                                <button id="double2editThrow2" style="display: none;"
+                                    onclick="changeScore(2)">Ändern</button>
+                                <div id="double2throw3Text">Wurf 3:</div>
+                                <button id="double2editThrow3" style="display: none;"
+                                    onclick="changeScore(3)">Ändern</button>
+                            </div>
+                        </div>
                         <button id="confirmTurn" style="display: none;" onclick="confirmTurn()">Bestätigen</button>
                     </div>
                     <div id="tableInput">
@@ -739,12 +764,38 @@
                             <h2>20</h2>
                         </div>
                     </div>
-                    <button id="switchInputType" onclick="switchInputType()"></button>
-                    <button id="missedBoardButton" onclick="clickMissField()"></button>
+                    <button id="switchInputType" onclick="switchInputType()">
+                        <img id="missImage" src="img/switchInputType_dark.png" width="100%" height="100%">
+                    </button>
+                    <button id="missedBoardButton" onclick="clickMissField()">
+                        <img id="missImage" src="img/miss_dartboard.png" width="100%" height="100%">
+                    </button>
+                    <button id="stopGame" onclick="stopGame()"></button>
                 </div>
             </div>
             <div id="player" class="fullScreen" style="display: none;">
-                <div id="playerMainMenu" class="realFullScreen playerSubpoint"></div>
+                <div id="playerMainMenu" class="realFullScreen playerSubpoint">
+                    <div id="newPlayerDiv">
+                        <h1>neuer Spieler</h1>
+                        <form id="createPlayerForm" onsubmit="newPerson(event)">
+                            <label for="createPlayerName" id="createPlayerNameLabel">Name:</label>
+                            <input id="createPlayerName" name="name" type="text" placeholder="Name" required></input><br>
+                            <label for="createPlayerBirthday" id="createPlayerBirthdayLabel">Geburtsdatum:</label>
+                            <input id="createPlayerBirthday" name="birthday" type="date" required></input><br>
+                            <label for="createPlayerImage" id="createPlayerImageLabel">Bild:</label>
+                            <input id="createPlayerImage" name="image" type="file" accept="image/*"></input>
+                            <label for="createPlayerImage" id="createPlayerImageErrorLabel" style="color: var(--color_error); display: none;">kein akzeptiertes Format!</label>
+                            <div id="showImageDiv"></div>
+                            <button id="createPlayerButton" type="submit">Spieler erstellen</button>
+                        </form>
+                        
+                    </div>
+                    <div id="allPlayersDiv">
+                        <h1>alle Spieler</h1>
+                        <div class="allPlayersSubpoints" id="allPlayersListDiv">alle Spieler</div>
+                        <div class="allPlayersSubpoints" id="allPlayersAlltimeStatsDiv">alltime Spielerstatistiken</div>
+                    </div>
+                </div>
                 <div id="playerStats" class="realFullScreen playerSubpoint" style="display: none;"></div>
             </div>
         </div>

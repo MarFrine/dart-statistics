@@ -1,4 +1,4 @@
-const creationForm = document.getElementById("createGameForm");
+const gameCreationForm = document.getElementById("createGameForm");
 let newGameRules = {
     type: "xThrows",
     subtype: "10",
@@ -6,10 +6,10 @@ let newGameRules = {
     players: []
 }
 
-resetCreationForm();
+resetGameCreationForm();
 
 
-creationForm.addEventListener("input", (change)=>{
+gameCreationForm.addEventListener("input", (change)=>{
 
     if(change.target.name == "gameType"){
         newGameRules.type = change.target.value;
@@ -85,8 +85,8 @@ creationForm.addEventListener("input", (change)=>{
 
 });
 
-function resetCreationForm(){
-    creationForm.reset();
+function resetGameCreationForm(){
+    gameCreationForm.reset();
     document.getElementById("firstTo301").style.display = "none";
     document.getElementById("firstTo301Label").style.display = "none";
     document.getElementById("firstTo501").style.display = "none";
@@ -102,6 +102,7 @@ function resetCreationForm(){
 
     document.getElementById("doubleIn").disabled = true;
     document.getElementById("doubleOut").disabled = true;
+    document.getElementById("double").disabled = false;
 
     newGameRules = {
         type: "xThrows",
@@ -166,6 +167,6 @@ function createNewGame(event){
         changeMenuPoint('inputGame');
     });
 
-    resetCreationForm();
+    resetGameCreationForm();
     updatePlayerList();
 }

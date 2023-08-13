@@ -1,15 +1,16 @@
-currentMenuPoint = "mainMenu";
+currentMenuPoint = "gameMainMenu";
 async function changeMenuPoint(menuPoint) {
     currentMenuPoint = menuPoint;
     clearInterval(periodicClientUpdate);
     clearInterval(periodicInputMessage);
-    await clientUpdate();
+    await getAccountData();
+    await clientUpdate(true);
+    
 
     let menuPointDiv = document.getElementById(menuPoint);
 
     document.getElementById("player").style.display = "none";
     document.getElementById("game").style.display = "none";
-    document.getElementById("mainMenu").style.display = "none";
 
 
 
@@ -28,46 +29,68 @@ async function changeMenuPoint(menuPoint) {
     }
 
     console.log(menuPoint)
-    changeTo[menuPoint]();
-    document.getElementById(menuPoint).style.display = "block";
-    
+    if(await updateMenu[menuPoint]()){
+        document.getElementById(menuPoint).style.display = "block";
+    }
 }
 
 
-let changeTo = {
-    "mainMenu": ()=>{
-        
-    },
+let updateMenu = {
     "gameMainMenu": ()=>{
-
+        let gameListString = "";
+        for(let i = accountData.games.length-1; i >= 0; i--){
+            gameListString = gameListString + "<a onclick='showGameStatisticById(" + accountData.games[i].id + ")' class='clickableText'>" + accountData.games[i].type + " - " + accountData.games[i].date + "</a><br>";
+        }
+        document.getElementById("allGamesGameListDiv").innerHTML = gameListString;
+        return true;
     },
     "createGame": ()=>{
         console.log("test")
         if (currentGame) {
-            return changeMenuPoint("watchGame");
+            changeMenuPoint("watchGame")
+            return false;
         } else {
             updatePlayerList();
+            return true;
         }
     },
-    "inputGame": ()=>{
+    "inputGame": async ()=>{
         if (!currentGame) {
-            return changeMenuPoint("createGame");
+            changeMenuPoint("createGame");
+            return false;
         } else {
-            document.getElementById("inputGameBlock").style.display = "block";
+            if(!await sendInputMessage()){
+                return false;
+            }
             displayTurnOrder();
+            clearInterval(periodicInputMessage);
             periodicInputMessage = setInterval("sendInputMessage()", 1000);
+            return true;
         }
     },
     "watchGame": ()=>{
+        clearInterval(periodicClientUpdate);
         periodicClientUpdate = setInterval("clientUpdate()", 1000);
+        return true;
     },
     "gameStats": ()=>{
 
+        return true;
     },
     "playerMainMenu": ()=>{
 
+        return true;
     },
     "playerStats": ()=>{
 
+        return true;
     }
+}
+
+
+async function syncServer(){
+    clearInterval(periodicClientUpdate);
+    clearInterval(periodicInputMessage);
+    await getAccountData();
+    await clientUpdate();
 }

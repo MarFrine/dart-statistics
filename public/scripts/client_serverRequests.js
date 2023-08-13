@@ -1,8 +1,10 @@
 async function transferData(url, type, bodyData) {
     if (type == "get") {
         const response = await fetch(url, { method: type })
-        const data = await response.json()
-        return data
+        if(url != "stopGame"){
+            const data = await response.json()
+            return data
+        }
     } else if (type == "post" || type == "put") {
         const response = await fetch(url, {
             method: type,
@@ -15,18 +17,22 @@ async function transferData(url, type, bodyData) {
 }
 
 let periodicClientUpdate;
-async function clientUpdate() {
+async function clientUpdate(stopMenuUpdate) {
     await transferData("/clientUpdate", "get")
         .then((data) => {
             if (data.activeGame) {
                 currentGame = data.game;
                 console.log(currentGame)
                 currentScores = currentGame.scores[currentGame.currentTurn].tempScore;
+                if(currentGame.specifications.double){
+                    currentDoubleScores = currentGame.scores[currentGame.playerList.find((thisPlayer)=>{return currentGame.scores[thisPlayer].double == currentGame.scores[currentGame.currentTurn].double && currentGame.scores[thisPlayer].leadDouble})].tempScore.doubleScore;
+                }
                 if (currentMenuPoint == "inputGame") {
                     displayTurnOrder();
                     displayCurrentTurn();
 
                     selectedScore = undefined;
+                    console.log(currentScores);
                     if (!currentScores["throw1"]) {
                         selectedScore = 1
                     } else if (!currentScores["throw2"]) {
@@ -37,9 +43,16 @@ async function clientUpdate() {
                 }
             } else {
                 if(currentMenuPoint == "watchGame" && currentGame){
-                    drawGameStatistic(data.lastGame);
+                    if(data.lastGame){
+                        showGameStatistic(data.lastGame);
+                    } else {
+                        changeMenuPoint("gameMainMenu");
+                    }
                 }
                 currentGame = undefined;
+            }
+            if(!stopMenuUpdate){
+                updateMenu[currentMenuPoint]();
             }
         })
 }
@@ -52,20 +65,22 @@ async function getAccountData(){
 }
 
 let periodicInputMessage;
-function sendInputMessage() {
-    transferData("/currentlyEditing", "post", { "clientID": clientID })
+async function sendInputMessage() {
+    return await transferData("/currentlyEditing", "post", { "clientID": clientID })
         .then((data) => {
             if(data.error){
                 console.log(data.error);
                 clearInterval(periodicInputMessage);
                 changeMenuPoint("createGame");
+                return false;
             } else {
                 console.log(data.currentEditor, clientID);
                 if (data.currentEditor != clientID) {
                     clearInterval(periodicInputMessage);
                     changeMenuPoint("watchGame");
+                    return false;
                 } else {
-                    document.getElementById("inputGameBlock").style.display = "none";
+                    return true;
                 }
             }
         })

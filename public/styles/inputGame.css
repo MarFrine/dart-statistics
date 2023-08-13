@@ -4,7 +4,7 @@
     left: 50%;
     width: 816px;
     height: 816px;
-    transform: translateY(-50%) translateX(-50%);
+    transform: translateY(calc(-50% + 50px)) translateX(-50%);
 }
 .dartboardButton{
     cursor: pointer;
@@ -21,75 +21,82 @@
     color: var(--color_contrast);
 }
 #inputBoardNumber20{
-    transform: translateY(calc(-50% - 420px)) translateX(-50%);
+    transform: translateY(calc(-50% - 370px)) translateX(-50%);
 }
 #inputBoardNumber3{
-    transform: translateY(calc(-50% + 420px)) translateX(-50%);
+    transform: translateY(calc(-50% + 470px)) translateX(-50%);
 }
 #inputBoardNumber11{
-    transform: translateY(-50%) translateX(calc(-50% - 420px));
+    transform: translateY(calc(-50% + 50px)) translateX(calc(-50% - 420px));
 }
 #inputBoardNumber6{
-    transform: translateY(-50%) translateX(calc(-50% + 420px));
+    transform: translateY(calc(-50% + 50px)) translateX(calc(-50% + 420px));
 }
 #inputBoardNumber13{
-    transform: translateY(calc(-50% - 130px)) translateX(calc(-50% + 400px));
+    transform: translateY(calc(-50% - 80px)) translateX(calc(-50% + 400px));
 }
 #inputBoardNumber14{
-    transform: translateY(calc(-50% - 130px)) translateX(calc(-50% - 400px));
+    transform: translateY(calc(-50% - 80px)) translateX(calc(-50% - 400px));
 }
 #inputBoardNumber8{
-    transform: translateY(calc(-50% + 130px)) translateX(calc(-50% - 400px));
+    transform: translateY(calc(-50% + 180px)) translateX(calc(-50% - 400px));
 }
 #inputBoardNumber10{
-    transform: translateY(calc(-50% + 130px)) translateX(calc(-50% + 400px));
+    transform: translateY(calc(-50% + 180px)) translateX(calc(-50% + 400px));
 }
 #inputBoardNumber5{
-    transform: translateY(calc(-50% - 400px)) translateX(calc(-50% - 130px));
+    transform: translateY(calc(-50% - 350px)) translateX(calc(-50% - 130px));
 }
 #inputBoardNumber1{
-    transform: translateY(calc(-50% - 400px)) translateX(calc(-50% + 130px));
+    transform: translateY(calc(-50% - 350px)) translateX(calc(-50% + 130px));
 }
 #inputBoardNumber19{
-    transform: translateY(calc(-50% + 400px)) translateX(calc(-50% - 130px));
+    transform: translateY(calc(-50% + 450px)) translateX(calc(-50% - 130px));
 }
 #inputBoardNumber17{
-    transform: translateY(calc(-50% + 400px)) translateX(calc(-50% + 130px));
+    transform: translateY(calc(-50% + 450px)) translateX(calc(-50% + 130px));
 }
 #inputBoardNumber12{
-    transform: translateY(calc(-50% - 345px)) translateX(calc(-50% - 245px));
+    transform: translateY(calc(-50% - 295px)) translateX(calc(-50% - 245px));
 }
 #inputBoardNumber18{
-    transform: translateY(calc(-50% - 345px)) translateX(calc(-50% + 245px));
+    transform: translateY(calc(-50% - 295px)) translateX(calc(-50% + 245px));
 }
 #inputBoardNumber7{
-    transform: translateY(calc(-50% + 345px)) translateX(calc(-50% - 245px));
+    transform: translateY(calc(-50% + 395px)) translateX(calc(-50% - 245px));
 }
 #inputBoardNumber2{
-    transform: translateY(calc(-50% + 345px)) translateX(calc(-50% + 245px));
+    transform: translateY(calc(-50% + 395px)) translateX(calc(-50% + 245px));
 }
 #inputBoardNumber9{
-    transform: translateY(calc(-50% - 245px)) translateX(calc(-50% - 345px));
+    transform: translateY(calc(-50% - 195px)) translateX(calc(-50% - 345px));
 }
 #inputBoardNumber4{
-    transform: translateY(calc(-50% - 245px)) translateX(calc(-50% + 345px));
+    transform: translateY(calc(-50% - 195px)) translateX(calc(-50% + 345px));
 }
 #inputBoardNumber16{
-    transform: translateY(calc(-50% + 245px)) translateX(calc(-50% - 345px));
+    transform: translateY(calc(-50% + 295px)) translateX(calc(-50% - 345px));
 }
 #inputBoardNumber15{
-    transform: translateY(calc(-50% + 245px)) translateX(calc(-50% + 345px));
+    transform: translateY(calc(-50% + 295px)) translateX(calc(-50% + 345px));
 }
-
 
 
 #switchInputType{
     position: absolute;
     top: 10px;
     left: 50%;
-    width: 50px;
-    height: 50px;
+    width: 90px;
+    height: 90px;
     transform: translateX(-50%);
+    background-color: var(--color_interface);
+    border: 3px solid var(--color_highlights);
+    border-radius: 10px;
+}
+#switchInputType:hover{
+    background-color: var(--color_interface_light);
+    border: 3px solid var(--color_highlights_bright);
+    cursor: pointer;
 }
 
 #tableInput{
@@ -99,7 +106,7 @@
     top: 50%;
     width: 900px;
     height: 850px;
-    transform: translateY(-50%) translateX(-50%);
+    transform: translateY(calc(-50% + 50px)) translateX(-50%);
     background-color: var(--color_interface);
 }
 
@@ -133,9 +140,9 @@
     position: absolute;
     left: 50%;
     top: 50%;
-    height: 50px;
-    width: 50px;
-    transform: translateY(-360px) translateX(calc(395px - 100%));
+    height: 80px;
+    width: 80px;
+    transform: translateY(-325px) translateX(calc(395px - 100%));
     background-color: var(--color_interface);
     border: 3px solid var(--color_highlights);
     border-radius: 10px;
@@ -166,10 +173,39 @@
     background-color: var(--color_interface);
     text-align: center;
 }
+
+#inputCurrentTurnDouble{
+    position: absolute;
+    right: 0px;
+    top: 130px;
+    height: 470px;
+    width: 100%;
+    background-color: var(--color_interface);
+    text-align: center;
+}
+#double1Div{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    width: 50%;
+    background-color: var(--color_interface);
+    text-align: center;
+}
+#double2Div{
+    position: absolute;
+    left: 50%;
+    top: 0px;
+    height: 100%;
+    width: 50%;
+    background-color: var(--color_interface);
+    text-align: center;
+}
+
 #inputCurrentTurnName{
     position: absolute;
     left: 0px;
-    top: 00px;
+    top: 0px;
     height: 60px;
     width: 100%;
     
@@ -248,4 +284,20 @@
     height: 50px;
     width: 60%;
     transform: translateX(-50%);   
+}
+
+#stopGame{
+    position: absolute;
+    top: 50%;
+    left: 230px;
+    height: 50px;
+    width: 50px;
+    transform: translateY(calc(-50% - 350px)) translateX(-50%);
+    border-radius: 30%;
+    border: 2px solid var(--color_highlights);
+    background-color: var(--color_interface);
+    cursor: pointer;
+}
+#stopGame:hover{
+    background-color: var(--color_interface_light);
 }
