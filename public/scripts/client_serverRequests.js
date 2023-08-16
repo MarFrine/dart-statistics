@@ -40,14 +40,18 @@ async function clientUpdate(stopMenuUpdate) {
                     } else if (!currentScores["throw3"]) {
                         selectedScore = 3
                     }
+                } else if(currentMenuPoint == "watchGame"){
+                    updateWatchGameMenu();
                 }
             } else {
                 if(currentMenuPoint == "watchGame" && currentGame){
                     if(data.lastGame){
                         showGameStatistic(data.lastGame);
                     } else {
-                        changeMenuPoint("gameMainMenu");
+                        changeMenuPoint("mainMenu");
                     }
+                } else if(currentMenuPoint == "watchGame"){
+                    changeMenuPoint("mainMenu");
                 }
                 currentGame = undefined;
             }
@@ -62,6 +66,7 @@ async function getAccountData(){
     .then((data)=>{
         accountData = data.account;
     })
+    return
 }
 
 let periodicInputMessage;
@@ -77,7 +82,6 @@ async function sendInputMessage() {
                 console.log(data.currentEditor, clientID);
                 if (data.currentEditor != clientID) {
                     clearInterval(periodicInputMessage);
-                    changeMenuPoint("watchGame");
                     return false;
                 } else {
                     return true;

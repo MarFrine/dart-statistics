@@ -1,65 +1,85 @@
-currentMenuPoint = "gameMainMenu";
+
+currentMenuPoint = "mainMenu";
+let changeMenuPointError = "";
 async function changeMenuPoint(menuPoint) {
     currentMenuPoint = menuPoint;
     clearInterval(periodicClientUpdate);
     clearInterval(periodicInputMessage);
     await getAccountData();
     await clientUpdate(true);
+
+
     
 
-    let menuPointDiv = document.getElementById(menuPoint);
 
-    document.getElementById("player").style.display = "none";
-    document.getElementById("game").style.display = "none";
-
-
-
-    if(menuPointDiv.classList.contains("gameSubpoint")){
-        let affectedDivs = document.getElementsByClassName("gameSubpoint")
-        for (let i = 0; i < affectedDivs.length; i++) {
-            affectedDivs[i].style.display = "none";
-        }
-        document.getElementById("game").style.display = "block";
-    } else if(menuPointDiv.classList.contains("playerSubpoint")){
-        let affectedDivs = document.getElementsByClassName("playerSubpoint")
-        for (let i = 0; i < affectedDivs.length; i++) {
-            affectedDivs[i].style.display = "none";
-        }
-        document.getElementById("player").style.display = "block";
-    }
 
     console.log(menuPoint)
-    if(await updateMenu[menuPoint]()){
-        document.getElementById(menuPoint).style.display = "block";
+    if (await updateMenu[menuPoint]()) {
+        let menuPointDiv = document.getElementById(menuPoint);
+
+        let affectedDivs = document.getElementsByClassName("mainMenuPoint")
+
+        for (let i = 0; i < affectedDivs.length; i++) {
+            affectedDivs[i].style.display = "none";
+        }
+
+        menuPointDiv.style.display = "block";
+    } else {
+        document.getElementById("redirectMessage").innerHTML = "<h3>" + changeMenuPointError + "</h3>";
+        document.getElementById("redirectMessage").style.display = "block";
+        setTimeout(()=>{document.getElementById("redirectMessage").style.display = "none";}, 5000);
     }
 }
 
 
 let updateMenu = {
-    "gameMainMenu": ()=>{
-        let gameListString = "";
-        for(let i = accountData.games.length-1; i >= 0; i--){
-            gameListString = gameListString + "<a onclick='showGameStatisticById(" + accountData.games[i].id + ")' class='clickableText'>" + accountData.games[i].type + " - " + accountData.games[i].date + "</a><br>";
+    "mainMenu": () => {
+        let gameListString = "<br><font size='+2'><b>Spielverlauf:</b></font><br><br>";
+        for (let i = accountData.games.length - 1; i >= 0; i--) {
+            if(!accountData.games[i].winner){
+                gameListString = gameListString + "<a onclick='showGameStatisticById(" + accountData.games[i].id + ")' class='clickableText'>" + accountData.games[i].type + " - " + accountData.games[i].subtype + "</a><br><br><div class='completeLine'></div><br>";
+            } else if(accountData.games[i].type == "xThrows"){
+                if(accountData.games[i].specifications.double){
+                    gameListString = gameListString + "<a onclick='showGameStatisticById(" + accountData.games[i].id + ")' class='clickableText'>" + accountData.games[i].subtype + " Würfe - " + accountData.games[i].winner + " & " + accountData.games[i].playerList.find((thisPlayer)=>{return accountData.games[i].scores[thisPlayer].double == accountData.games[i].scores[accountData.games[i].winner].double && thisPlayer != accountData.games[i].winner}) + ": " + accountData.games[i].winningScore + "</a><br><br><div class='completeLine'></div><br>";
+                } else {
+                    gameListString = gameListString + "<a onclick='showGameStatisticById(" + accountData.games[i].id + ")' class='clickableText'>" + accountData.games[i].subtype + " Würfe - " + accountData.games[i].winner + ": " + accountData.games[i].winningScore + "</a><br><br><div class='completeLine'></div><br>";
+                }
+            } else if(accountData.games[i].type == "firstToX"){
+                gameListString = gameListString + "<a onclick='showGameStatisticById(" + accountData.games[i].id + ")' class='clickableText'>" + accountData.games[i].subtype + " - " + accountData.games[i].winner + "</a><br><br><div class='completeLine'></div><br>";
+            }
         }
         document.getElementById("allGamesGameListDiv").innerHTML = gameListString;
+
+        playerListSearchString = "";
+        document.getElementById("allPlayersListSearch").value = "";
+        refreshMainMenuPlayerList();
+
         return true;
     },
-    "createGame": ()=>{
+    "createGame": () => {
         console.log("test")
         if (currentGame) {
-            changeMenuPoint("watchGame")
+            changeMenuPointError = "Spiel läuft bereits";
+            return false;
+        } else if(!loggedIn){
+            changeMenuPointError = "keine Berechtigung ohne Login";
             return false;
         } else {
             updatePlayerList();
             return true;
         }
     },
-    "inputGame": async ()=>{
+    "inputGame": async () => {
         if (!currentGame) {
             changeMenuPoint("createGame");
+            changeMenuPointError = "kein laufendes Spiel";
             return false;
         } else {
-            if(!await sendInputMessage()){
+            if(!loggedIn){
+                changeMenuPointError = "keine Berechtigung ohne Login";
+                return false;
+            } else if (!await sendInputMessage()) {
+                changeMenuPointError = "ein anderer Benutzer gibt die Ergebnisse bereits ein";
                 return false;
             }
             displayTurnOrder();
@@ -68,27 +88,37 @@ let updateMenu = {
             return true;
         }
     },
-    "watchGame": ()=>{
+    "watchGame": () => {
         clearInterval(periodicClientUpdate);
-        periodicClientUpdate = setInterval("clientUpdate()", 1000);
-        return true;
+        if (currentGame) {
+            periodicClientUpdate = setInterval("clientUpdate()", 1000);
+            return true;
+        } else {
+            changeMenuPointError = "kein laufendes Spiel";
+            return false;
+        }
+
+
     },
-    "gameStats": ()=>{
+    "gameStats": () => {
 
         return true;
     },
-    "playerMainMenu": ()=>{
+    "playerStats": () => {
 
         return true;
     },
-    "playerStats": ()=>{
-
+    "newPlayer": () => {
+        if(!loggedIn){
+            changeMenuPointError = "keine Berechtigung ohne Login";
+            return false;
+        }
         return true;
     }
 }
 
 
-async function syncServer(){
+async function syncServer() {
     clearInterval(periodicClientUpdate);
     clearInterval(periodicInputMessage);
     await getAccountData();

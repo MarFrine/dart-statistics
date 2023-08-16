@@ -2,15 +2,19 @@ module.exports = {
   "person": class ServerSidePerson {
     constructor(details, fs, currentAccount, completeData) {
       this.name = details.name;
-      let birthday = change.target.value.split("-")
+      this.nickname = details.nickname;
+      let birthday = details.birthday.split("-");
       this.birth = {
         "day": birthday[0],
         "month": birthday[1],
         "year": birthday[2],
-      }
+      };
       this.games = [];
       this.gamesPlayed = 0;
+
       this.ImageFilename = details.filename;
+
+      
 
       return this.saveInFile(fs, currentAccount, completeData);
     }

@@ -1,0 +1,343 @@
+#watchGameHead{
+    position: absolute;
+    top: 0px;
+    left: 20%;
+    width: 60%;
+    height: 7%;
+    
+    border-width: 3px;
+    border-style: solid;
+    border-image: linear-gradient(to top, var(--color_highlights), var(--color_main), var(--color_main)) 1;
+    z-index: 10;
+}
+#watchGameTitle{
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    width: auto;
+    height: 100%;
+    transform: translateX(-50%);
+    line-height: 400%;
+    text-align: center;
+}
+#watchGameSubtitle{
+    position: absolute;
+    top: 0px;
+    left: 75%;
+    width: auto;
+    height: 100%;
+    transform: translateX(-50%);
+    line-height: 380%;
+    text-align: center;
+}
+
+
+#watchGameSectionLeft{
+    position: absolute;
+    top: 9%;
+    left: 1%;
+    width: 23%;
+    height: 89%;
+    border: 0px solid white;
+    background-color: var(--color_interface);
+    border-top-left-radius: 100px;
+    border-bottom-left-radius: 100px;
+}
+#watchGameRoundInfo{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 30%;
+    border: 0px solid white;
+    text-align: center;
+}
+#watchGameRoundDisplay{
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    width: 100%;
+    height: 20%;
+    transform: translateX(-50%);
+    border: 0px solid white;
+    text-align: center;
+}
+#watchGameProgress{
+    position: absolute;
+    top: 150px;
+    left: 50%;
+    width: 350px;
+    height: 50px;
+    transform: translateX(-50%);
+    border-style: solid;
+    border-width: 2px;
+    border-image: linear-gradient(to right, blue, red) 1;
+    text-align: center;
+}
+#watchGameTurnOrder{
+    position: absolute;
+    top: 30%;
+    left: 0px;
+    width: 100%;
+    height: 70%;
+    border: 0px solid white;
+    text-align: center;
+}
+
+
+
+#watchGameSectionCenter{
+    position: absolute;
+    top: 9%;
+    left: 25%;
+    width: 50%;
+    height: 89%;
+    border: 0px solid white;
+    background-color: var(--color_interface);
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
+}
+#watchGameCurrentPlayerOverview{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 15%;
+    border: 0px solid white;
+}
+#watchGameCurrentPlayerTotalScore{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    border: 0px solid white;
+    text-align: center;
+}
+#watchGameCurrentPlayerThrowsMade{
+    position: absolute;
+    top: 50%;
+    left: 15%;
+    width: auto;
+    height: auto;
+    border: 0px solid white;
+    text-align: center;
+    transform: translateY(-50%);
+}
+#watchGameCurrentPlayerThrowsLeft{
+    position: absolute;
+    top: 50%;
+    right: 15%;
+    width: auto;
+    height: auto;
+    border: 0px solid white;
+    text-align: center;
+    transform: translateY(-50%);
+}
+#watchGameCurrentThrow{
+    position: absolute;
+    top: 15%;
+    left: 0px;
+    width: 100%;
+    height: 40%;
+    border: 0px solid white;
+}
+#watchGameCurrentThrowSingleThrow1{
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    width: 250px;
+    height: 250px;
+    border: 0px solid white;
+    transform: translateX(-50%) translateY(-50%);
+}
+#watchGameCurrentThrowSingleThrow2{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 250px;
+    height: 250px;
+    border: 0px solid white;
+    transform: translateX(-50%) translateY(-50%);
+}
+#watchGameCurrentThrowSingleThrow3{
+    position: absolute;
+    top: 50%;
+    left: 80%;
+    width: 250px;
+    height: 250px;
+    border: 0px solid white;
+    transform: translateX(-50%) translateY(-50%);
+}
+.watchGameCurrentSingleThrowImage{
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    transform: translateX(-50%);
+}
+.watchGameCurrentSingleThrowText{
+    position: absolute;
+    top: 140px;
+    left: 50%;
+    width: auto;
+    height: auto;
+    border: 0px solid white;
+    transform: translateX(-50%);
+}
+
+#watchGameCurrentThrowDoublePlayer1{
+    position: absolute;
+    top: 10px;
+    left: 25%;
+    width: 300px;
+    height: 50px;
+    border: 0px solid white;
+    transform: translateX(-50%);
+    text-align: center;
+    line-height: 10px;
+}
+#watchGameCurrentThrowDoubleThrow1{
+    position: absolute;
+    top: 33%;
+    left: 25%;
+    width: 300px;
+    height: 80px;
+    border: 0px solid white;
+    transform: translateX(-50%) translateY(-50%);
+}
+#watchGameCurrentThrowDoubleThrow2{
+    position: absolute;
+    top: 58%;
+    left: 25%;
+    width: 300px;
+    height: 80px;
+    border: 0px solid white;
+    transform: translateX(-50%) translateY(-50%);
+}
+#watchGameCurrentThrowDoubleThrow3{
+    position: absolute;
+    top: 83%;
+    left: 25%;
+    width: 300px;
+    height: 80px;
+    border: 0px solid white;
+    transform: translateX(-50%) translateY(-50%);
+}
+#watchGameCurrentThrowDoublePlayer2{
+    position: absolute;
+    top: 10px;
+    left: 75%;
+    width: 300px;
+    height: 50px;
+    border: 0px solid white;
+    transform: translateX(-50%);
+    text-align: center;
+    line-height: 10px;
+}
+#watchGameCurrentThrowDoubleThrow4{
+    position: absolute;
+    top: 30%;
+    left: 75%;
+    width: 300px;
+    height: 80px;
+    border: 0px solid white;
+    transform: translateX(-50%) translateY(-50%);
+}
+#watchGameCurrentThrowDoubleThrow5{
+    position: absolute;
+    top: 55%;
+    left: 75%;
+    width: 300px;
+    height: 80px;
+    border: 0px solid white;
+    transform: translateX(-50%) translateY(-50%);
+}
+#watchGameCurrentThrowDoubleThrow6{
+    position: absolute;
+    top: 80%;
+    left: 75%;
+    width: 300px;
+    height: 80px;
+    border: 0px solid white;
+    transform: translateX(-50%) translateY(-50%);
+}
+.watchGameCurrentDoubleThrowImage{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 80px;
+    height: 80px;
+}
+.watchGameCurrentDoubleThrowText{
+    position: absolute;
+    top: 50%;
+    left: 150px;
+    width: auto;
+    height: auto;
+    border: 0px solid white;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+#watchGameCurrentGameStatistic{
+    position: absolute;
+    bottom: 2%;
+    left: 50%;
+    width: 920px;
+    height: 400px;
+    transform: translateX(-50%);
+    border: 0px solid white;
+    background-color: var(--color_interface_dark);
+    border-radius: 30px 30px 90px 30px;
+}
+
+
+#watchGameSectionRight{
+    position: absolute;
+    top: 9%;
+    right: 1%;
+    width: 23%;
+    height: 89%;
+    border: 0px solid var(--color_interface_dark);
+    background-color: var(--color_interface_dark);
+    border-radius: 30px;
+    background-image: linear-gradient(to bottom right, rgba(85,26,139, 0.5), rgba(145,44,238, 0.7));
+}
+#watchGamePlayerInfo{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 60%;
+    border: 0px solid var(--color_highlights);
+}
+#watchGamePlayerPic{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 350px;
+    height: 350px;
+    border: 5px solid var(--color_main);
+    border-radius: 30%;
+    transform: translateX(-50%) translateY(-70%);
+    text-align: center;
+    overflow: hidden;
+}
+#watchGamePlayerName{
+    position: absolute;
+    top: 75%;
+    left: 0px;
+    width: 100%;
+    height: 150px;
+    border: 0px solid white;
+    text-align: center;
+}
+#watchGamePlayerStats{
+    position: absolute;
+    top: 60%;
+    left: 0px;
+    width: 100%;
+    height: 40%;
+    border: 0px solid white;
+}

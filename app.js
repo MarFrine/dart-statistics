@@ -74,7 +74,9 @@ function gameInfo(currentGame, gameID) {
             "currentRound": currentGames[currentAccount.username].currentRound,
             "roundString": currentGames[currentAccount.username].roundString,
             "currentTurn": currentGames[currentAccount.username].currentTurn,
-            "scores": currentGames[currentAccount.username].scores
+            "scores": currentGames[currentAccount.username].scores,
+            "throws": currentGames[currentAccount.username].throws,
+            "maxThrows": currentGames[currentAccount.username].maxThrows
         };
     } else {
         return {
@@ -87,7 +89,9 @@ function gameInfo(currentGame, gameID) {
             "currentRound": currentAccountData.games[gameID].currentRound,
             "roundString": currentAccountData.games[gameID].roundString,
             "currentTurn": currentAccountData.games[gameID].currentTurn,
-            "scores": currentAccountData.games[gameID].scores
+            "scores": currentAccountData.games[gameID].scores,
+            "throws": currentAccountData.games[gameID].throws,
+            "maxThrows": currentAccountData.games[gameID].maxThrows
         };
     }
 

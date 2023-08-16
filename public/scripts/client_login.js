@@ -19,10 +19,10 @@ async function sendLoginData(event, formElement){
         } else {
             loggedIn = true;
             await getAccountData();
-            await clientUpdate();
+            await clientUpdate(true);
             document.getElementById("loginError").style.display = "none";
             document.getElementById("loginContentBlock").style.display = "none";
-            changeMenuPoint("gameMainMenu");
+            changeMenuPoint("mainMenu");
             return clientID = data.clientID;
         }
     });
@@ -30,9 +30,9 @@ async function sendLoginData(event, formElement){
 
 
 async function skipLogin(){
+    await clientUpdate(true);
+    await getAccountData();
     document.getElementById("loginError").style.display = "none";
     document.getElementById("loginContentBlock").style.display = "none";
-    await clientUpdate();
-    await getAccountData();
-    changeMenuPoint("gameMainMenu");
+    changeMenuPoint("mainMenu");
 }

@@ -213,11 +213,12 @@ function showGameResults(game, oneDouble, double) {
                 ];
 
                 playerList.sort((player1, player2) => {
-                    return player1.totalScore < player2.totalScore;
+                    return player2.totalScore - player1.totalScore;
                 });
                 for (let i = 0; i < playerList.length; i++) {
                     playerResultString = playerResultString + "<br><br><font size='+4'>" + (i + 1) + ": " + playerList[i].name + "</a></font><font size='+3'> -- " + playerList[i].totalScore + "</font>"
                 }
+                playerResultString = playerResultString + "<br><br><br><br><br><br><button onclick='showGameStatisticById(" + game.id + ")'>zurück zum Spiel</button>";
             } else {
                 document.getElementById("gameResultsTitle").innerHTML = "<b><u><font size='+6'>" + game.subtype + " Würfe</font></u></b><br><h2>Doppel</h2>";
                 let doubleList = []
@@ -229,7 +230,7 @@ function showGameResults(game, oneDouble, double) {
                     })
                 }
                 doubleList.sort((double1, double2) => {
-                    return double1.totalScore < double2.totalScore;
+                    return double2.totalScore - double1.totalScore;
                 });
                 for (let i = 0; i < doubleList.length; i++) {
                     playerResultString = playerResultString + "<br><br><font size='+4'>" + (i + 1) + ": <a onclick='showDoubleStatisticById(" + game.id + "," + doubleList[i].double + ")' class='clickableText'>" + doubleList[i].name + "</a></font><font size='+3'> -- " + doubleList[i].totalScore + "</font>"
@@ -238,7 +239,7 @@ function showGameResults(game, oneDouble, double) {
         } else {
             document.getElementById("gameResultsTitle").innerHTML = "<b><u><font size='+6'>" + game.subtype + " Würfe</font></u></b>"
             playerListCopy.sort((player1, player2) => {
-                return game.scores[player1].totalScore < game.scores[player2].totalScore;
+                return game.scores[player2].totalScore - game.scores[player1].totalScore;
             });
 
             for (let i = 0; i < game.playerCount; i++) {
@@ -257,7 +258,7 @@ function showGameResults(game, oneDouble, double) {
         }
 
         playerListCopy.sort((player1, player2) => {
-            return ((3 * (game.scores[player1].finishRound - 1) + game.scores[player1].finishThrow) > (3 * (game.scores[player2].finishRound - 1) + game.scores[player2].finishThrow));
+            return ((3 * (game.scores[player1].finishRound - 1) + game.scores[player1].finishThrow) - (3 * (game.scores[player2].finishRound - 1) + game.scores[player2].finishThrow));
         });
 
         for (let i = 0; i < game.playerCount; i++) {

@@ -35,10 +35,10 @@ function switchTheme() {
 function switchInputType() {
     tableFieldType = undefined;
     tableFieldNumber = undefined;
-    for(let i = 0; i < inputTableNumberButtons.length; i++){
+    for (let i = 0; i < inputTableNumberButtons.length; i++) {
         inputTableNumberButtons[i].style.backgroundColor = "var(--color_interface_light)";
     }
-    for(let i = 0; i < tableInputTypeButtons.length; i++){
+    for (let i = 0; i < tableInputTypeButtons.length; i++) {
         document.getElementById(tableInputTypeButtons[i].id).locked = false;
         unhighlightDartField(tableInputTypeButtons[i].id);
     }
@@ -53,3 +53,26 @@ function switchInputType() {
     }
 
 }
+
+let playerListSearchString = "";
+document.getElementById("allPlayersList").value = "";
+function refreshMainMenuPlayerList() {
+    let playerListString = "<br><br>";
+    let playerListCopy = [...accountData.people];
+    let filteredPlayerListCopy = playerListCopy.filter((thisPlayer)=>{return thisPlayer.name.includes(playerListSearchString)});
+    filteredPlayerListCopy.sort((player1, player2)=>{return player2.gamesPlayed - player1.gamesPlayed});
+    for(let i = 0; i < filteredPlayerListCopy.length; i++){
+        playerListString = playerListString + "<font size='+3'><a onclick='showPlayerStatistics(";
+        playerListString = playerListString + '"' + filteredPlayerListCopy[i].name + '"';
+        playerListString = playerListString + ")' class='clickableText'>" + filteredPlayerListCopy[i].name + "</a></font><br><br>";
+    }
+    for (let i = 0; i < accountData.people.length; i++) {
+        
+    }
+    document.getElementById("allPlayersList").innerHTML = playerListString;
+}
+
+document.getElementById("allPlayersListSearch").addEventListener("input", (change)=>{
+    playerListSearchString = change.target.value;
+    refreshMainMenuPlayerList();
+})

@@ -3,13 +3,18 @@ module.exports = class ServerSideGame {
         this.id = currentAccount.data.totalGames;
         this.playerList = playerList;
         this.playerCount = this.playerList.length;
-        if (type == "firstToX") {
-            this.finishedPeople = 0;
-        }
+        
         this.date = Date();
 
         this.type = type;
         this.subtype = subtype;
+
+        this.throws = 0;
+        if (type == "firstToX") {
+            this.finishedPeople = 0;
+        } else if(type == "xThrows"){
+            this.maxThrows = this.subtype * this.playerCount * 3;
+        }
 
         this.specifications = {
             doubleIn: false,
@@ -47,6 +52,7 @@ module.exports = class ServerSideGame {
         this.scores = {};
         for (let i = 0; i < this.playerCount; i++) {
             this.scores[this.playerList[i]] = {};
+            this.scores[this.playerList[i]].throws = 0;
             if (this.type == "xThrows") {
                 if (this.specifications.double) {
                     if (i % 2 == 0) {
@@ -227,6 +233,10 @@ module.exports = class ServerSideGame {
             }
 
         } else { // neuer score
+            if(!alreadySet){
+                this.throws += 1;
+                this.scores[this.currentTurn].throws += 1;
+            }
             if (this.type == "xThrows") {
                 if (this.specifications.double) {
                     let playerToWriteScore = undefined;
@@ -469,6 +479,33 @@ module.exports = class ServerSideGame {
     }
 
     finish(fs, currentAccount, currentGames, completeData) {
+
+        if(this.type == "firstToX"){
+            this.winner = this.playerList[0];
+            for(let i = 1; i < this.playerCount; i++){
+                if(this.scores[this.playerList[i]].throws < this.scores[this.winner].throws){
+                    this.winner = this.playerList[i];
+                }
+            }
+            this.winningScore = this.scores[this.winner].throws;
+        } else if(this.type == "xThrows" && !this.specifications.double){
+            this.winner = this.playerList[0];
+            for(let i = 1; i < this.playerCount; i++){
+                if(this.scores[this.playerList[i]].totalScore > this.scores[this.winner].totalScore){
+                    this.winner = this.playerList[i];
+                }
+            }
+            this.winningScore = this.scores[this.winner].totalScore;
+        } else if(this.type == "xThrows" && this.specifications.double){
+            this.winner = this.playerList[0];
+            for(let i = 1; i < this.playerCount/2; i++){
+                if(this.scores[this.playerList[2*i]].doubleScore.totalScore > this.scores[this.winner].doubleScore.totalScore){
+                    this.winner = this.playerList[i];
+                }
+            }
+            this.winningScore = this.scores[this.winner].doubleScore.totalScore;
+        }
+
         delete currentGames[currentAccount.username];
         let newData = this;
         delete newData.currentTurn;
@@ -486,7 +523,11 @@ module.exports = class ServerSideGame {
         completeData[accountIndex].data.totalGames = completeData[accountIndex].data.games.length;
 
         completeData[accountIndex].data.people.forEach((thisPerson) => {
-            thisPerson.games.push(this.id);
+            if(newData.playerList.includes(thisPerson.name)){
+                thisPerson.games.push(this.id);
+                thisPerson.gamesPlayed += 1;
+            }
+            
         });
 
         fs.writeFile("./data.json", JSON.stringify(completeData), (error) => {
