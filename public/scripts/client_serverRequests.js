@@ -65,6 +65,8 @@ async function getAccountData(){
     await transferData("/getAccountData", "get")
     .then((data)=>{
         accountData = data.account;
+        oldRecordList = data.oldRecords;
+        console.log(oldRecordList)
     })
     return
 }

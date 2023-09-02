@@ -13,7 +13,7 @@ function showDoubleStatisticById(gameID, double) {
 }
 
 function showGameStatistic(game) {
-    changeMenuPoint("gameStats");
+    changeMenuPoint("gameStats", game);
     gameStatisticDiv.innerHTML = "";
 
     if (game.specifications.double) {
@@ -26,7 +26,7 @@ function showGameStatistic(game) {
 }
 
 function showDoubleStatistic(game, double) {
-    changeMenuPoint("gameStats");
+    changeMenuPoint("gameStats", game);
     gameStatisticDiv.innerHTML = "";
 
     drawDoubleGameStatistic(game, true, double);
@@ -84,13 +84,14 @@ function drawGameStatistic(game) {
 
     gameChartsvg.append("g")
         .attr("transform", "translate(0," + (gameChartHeight - gameChartMarginBottom) + ")")
+        .attr("id", "gameChartXAxisElement")
         .call(d3.axisBottom(gameChartXAxis).ticks(mostThrows));
 
-    let ticks = 50;
-    if (highestScore / 10 < 50) { ticks = highestScore / 10 }
+    let ticks = Math.ceil(highestScore / 100);
 
     gameChartsvg.append("g")
         .attr("transform", "translate(" + gameChartMarginLeft + ", 0)")
+        .attr("id", "gameChartYAxisElement")
         .call(d3.axisLeft(gameChartYAxis).ticks(ticks));
 
     //line generator
@@ -137,9 +138,10 @@ function drawGameStatistic(game) {
 
     }   //gameChartYAxis(playerScoreArrays[i][playerScoreArrays[i].length-1].totalScore)
 
-    gameStatisticDiv.append(gameChartsvg.node());
+    gameStatisticDiv.append(gameChartsvg.node());   
+    document.getElementById("gameChartXAxisElement").style.fontSize = "20px"
+    document.getElementById("gameChartYAxisElement").style.fontSize = "20px"
 }
-
 
 
 
@@ -243,8 +245,14 @@ function showGameResults(game, oneDouble, double) {
             });
 
             for (let i = 0; i < game.playerCount; i++) {
-                playerResultString = playerResultString + "<br><br><font size='+4'>" + (i + 1) + ": " + playerListCopy[i] + "</font><font size='+3'> -- " + game.scores[playerListCopy[i]].totalScore + "</font>"
+                console.log(playerListCopy[i])
+                playerResultString = playerResultString + "<br><br><font size='+4'>" + (i + 1) + ": <a onclick='showPlayerStatistics("
+                playerResultString = playerResultString + '"' + playerListCopy[i] + '"';
+                playerResultString = playerResultString + ", [" + game.id + "])' class='clickableText'>" + playerListCopy[i] + "</a></font><font size='+3'> -- " + game.scores[playerListCopy[i]].totalScore + "</font>";
             }
+            playerResultString = playerResultString + "<br><br><br><br><br><br><button onclick='showPlayerStatistics(";
+            playerResultString = playerResultString + '"all", ';
+            playerResultString = playerResultString + "[" + game.id + "])'>Heatmap aller Würfe</button>"
         }
     } else if (game.type == "firstToX") {
         if (game.specifications.doubleIn && !game.specifications.doubleOut) {
@@ -258,11 +266,11 @@ function showGameResults(game, oneDouble, double) {
         }
 
         playerListCopy.sort((player1, player2) => {
-            return ((3 * (game.scores[player1].finishRound - 1) + game.scores[player1].finishThrow) - (3 * (game.scores[player2].finishRound - 1) + game.scores[player2].finishThrow));
+            return ((3 * (game.scores[player1].finishRound - 1)) - (3 * (game.scores[player2].finishRound - 1)));
         });
 
         for (let i = 0; i < game.playerCount; i++) {
-            playerResultString = playerResultString + "<br><br><font size='+4'>" + (i + 1) + ": " + playerListCopy[i] + "</font><br><font size='+3'>Wurf " + (3 * (game.scores[playerListCopy[i]].finishRound - 1) + game.scores[playerListCopy[i]].finishThrow) + "</font>";
+            playerResultString = playerResultString + "<br><br><font size='+4'>" + (i + 1) + ": " + playerListCopy[i] + "</font><br><font size='+3'>Wurf " + game.scores[playerListCopy[i]].finishRound + "</font>";
         }
 
     }
@@ -319,14 +327,15 @@ function drawDoubleGameStatistic(game, doubleOverview, double) {
 
     gameChartsvg.append("g")
         .attr("transform", "translate(0," + (gameChartHeight - gameChartMarginBottom) + ")")
+        .attr("id", "gameChartXAxisElement")
         .call(d3.axisBottom(gameChartXAxis).ticks(mostThrows));
 
 
-    let ticks = 50;
-    if (highestScore / 10 < 50) { ticks = highestScore / 10 }
+        let ticks = Math.ceil(highestScore / 100);
 
     gameChartsvg.append("g")
         .attr("transform", "translate(" + gameChartMarginLeft + ", 0)")
+        .attr("id", "gameChartYAxisElement")
         .call(d3.axisLeft(gameChartYAxis).ticks(ticks));
 
     //line generator
@@ -398,6 +407,8 @@ function drawDoubleGameStatistic(game, doubleOverview, double) {
     }
 
     gameStatisticDiv.append(gameChartsvg.node());
+    document.getElementById("gameChartXAxisElement").style.fontSize = "20px"
+    document.getElementById("gameChartYAxisElement").style.fontSize = "20px"
 }
 
 

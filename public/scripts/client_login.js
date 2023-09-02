@@ -1,4 +1,5 @@
 let accountData;
+let oldRecordList = [];
 let loggedIn = false;
 async function sendLoginData(event, formElement){
     event.preventDefault();

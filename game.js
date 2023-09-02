@@ -483,11 +483,11 @@ module.exports = class ServerSideGame {
         if(this.type == "firstToX"){
             this.winner = this.playerList[0];
             for(let i = 1; i < this.playerCount; i++){
-                if(this.scores[this.playerList[i]].throws < this.scores[this.winner].throws){
+                if(this.scores[this.playerList[i]].finishRound < this.scores[this.winner].finishRound){
                     this.winner = this.playerList[i];
                 }
             }
-            this.winningScore = this.scores[this.winner].throws;
+            this.winningScore = this.scores[this.winner].finishRound;
         } else if(this.type == "xThrows" && !this.specifications.double){
             this.winner = this.playerList[0];
             for(let i = 1; i < this.playerCount; i++){
@@ -500,7 +500,7 @@ module.exports = class ServerSideGame {
             this.winner = this.playerList[0];
             for(let i = 1; i < this.playerCount/2; i++){
                 if(this.scores[this.playerList[2*i]].doubleScore.totalScore > this.scores[this.winner].doubleScore.totalScore){
-                    this.winner = this.playerList[i];
+                    this.winner = this.playerList[2*i];
                 }
             }
             this.winningScore = this.scores[this.winner].doubleScore.totalScore;

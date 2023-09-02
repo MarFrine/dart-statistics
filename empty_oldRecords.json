@@ -1,0 +1,15 @@
+{
+    "single": [
+        {
+            "player": "example",
+            "score": 100
+        }
+    ],
+    "double": [
+        {
+            "player1": "example",
+            "player2": "example2",
+            "score": 100
+        }
+    ]
+}

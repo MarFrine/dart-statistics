@@ -2,9 +2,9 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 816px;
-    height: 816px;
-    transform: translateY(calc(-50% + 50px)) translateX(-50%);
+    width: 943.5px;
+    height: 943.5px;
+    transform: translateY(-50%) translateX(-50%);
 }
 .dartboardButton{
     cursor: pointer;
@@ -14,81 +14,82 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 20px;
+    width: auto;
     height: 40px;
     text-align: center;
     line-height: 0px;
+    font-size: x-large;
     color: var(--color_contrast);
 }
 #inputBoardNumber20{
-    transform: translateY(calc(-50% - 370px)) translateX(-50%);
+    transform: translateY(calc(-50% - 495px)) translateX(-50%);
 }
 #inputBoardNumber3{
-    transform: translateY(calc(-50% + 470px)) translateX(-50%);
+    transform: translateY(calc(-50% + 475px)) translateX(-50%);
 }
 #inputBoardNumber11{
-    transform: translateY(calc(-50% + 50px)) translateX(calc(-50% - 420px));
+    transform: translateY(calc(-50%)) translateX(calc(-50% - 485px));
 }
 #inputBoardNumber6{
-    transform: translateY(calc(-50% + 50px)) translateX(calc(-50% + 420px));
+    transform: translateY(calc(-50%)) translateX(calc(-50% + 485px));
 }
 #inputBoardNumber13{
-    transform: translateY(calc(-50% - 80px)) translateX(calc(-50% + 400px));
+    transform: translateY(calc(-50% - 155px)) translateX(calc(-50% + 465px));
 }
 #inputBoardNumber14{
-    transform: translateY(calc(-50% - 80px)) translateX(calc(-50% - 400px));
+    transform: translateY(calc(-50% - 155px)) translateX(calc(-50% - 470px));
 }
 #inputBoardNumber8{
-    transform: translateY(calc(-50% + 180px)) translateX(calc(-50% - 400px));
+    transform: translateY(calc(-50% + 150px)) translateX(calc(-50% - 465px));
 }
 #inputBoardNumber10{
-    transform: translateY(calc(-50% + 180px)) translateX(calc(-50% + 400px));
+    transform: translateY(calc(-50% + 150px)) translateX(calc(-50% + 465px));
 }
 #inputBoardNumber5{
-    transform: translateY(calc(-50% - 350px)) translateX(calc(-50% - 130px));
+    transform: translateY(calc(-50% - 470px)) translateX(calc(-50% - 155px));
 }
 #inputBoardNumber1{
-    transform: translateY(calc(-50% - 350px)) translateX(calc(-50% + 130px));
+    transform: translateY(calc(-50% - 470px)) translateX(calc(-50% + 155px));
 }
 #inputBoardNumber19{
-    transform: translateY(calc(-50% + 450px)) translateX(calc(-50% - 130px));
+    transform: translateY(calc(-50% + 465px)) translateX(calc(-50% - 155px));
 }
 #inputBoardNumber17{
-    transform: translateY(calc(-50% + 450px)) translateX(calc(-50% + 130px));
+    transform: translateY(calc(-50% + 465px)) translateX(calc(-50% + 155px));
 }
 #inputBoardNumber12{
-    transform: translateY(calc(-50% - 295px)) translateX(calc(-50% - 245px));
+    transform: translateY(calc(-50% - 410px)) translateX(calc(-50% - 295px));
 }
 #inputBoardNumber18{
-    transform: translateY(calc(-50% - 295px)) translateX(calc(-50% + 245px));
+    transform: translateY(calc(-50% - 410px)) translateX(calc(-50% + 290px));
 }
 #inputBoardNumber7{
-    transform: translateY(calc(-50% + 395px)) translateX(calc(-50% - 245px));
+    transform: translateY(calc(-50% + 390px)) translateX(calc(-50% - 295px));
 }
 #inputBoardNumber2{
-    transform: translateY(calc(-50% + 395px)) translateX(calc(-50% + 245px));
+    transform: translateY(calc(-50% + 390px)) translateX(calc(-50% + 300px));
 }
 #inputBoardNumber9{
-    transform: translateY(calc(-50% - 195px)) translateX(calc(-50% - 345px));
+    transform: translateY(calc(-50% - 295px)) translateX(calc(-50% - 395px));
 }
 #inputBoardNumber4{
-    transform: translateY(calc(-50% - 195px)) translateX(calc(-50% + 345px));
+    transform: translateY(calc(-50% - 305px)) translateX(calc(-50% + 395px));
 }
 #inputBoardNumber16{
-    transform: translateY(calc(-50% + 295px)) translateX(calc(-50% - 345px));
+    transform: translateY(calc(-50% + 295px)) translateX(calc(-50% - 395px));
 }
 #inputBoardNumber15{
-    transform: translateY(calc(-50% + 295px)) translateX(calc(-50% + 345px));
+    transform: translateY(calc(-50% + 295px)) translateX(calc(-50% + 395px));
 }
 
 
 #switchInputType{
     position: absolute;
-    top: 10px;
+    top: 50%;
     left: 50%;
     width: 90px;
     height: 90px;
-    transform: translateX(-50%);
+    transform: translateX(calc(-50% - 430px)) translateY(calc(-50% - 430px));
     background-color: var(--color_interface);
     border: 3px solid var(--color_highlights);
     border-radius: 10px;
@@ -116,7 +117,7 @@
     left: 50%;
     width: 700px;
     height: 240px;
-    transform: translateX(calc(-50% - 50px));
+    transform: translateX(-50%);
 }
 
 .inputTableNumberButton{
@@ -138,11 +139,11 @@
 
 #missedBoardButton{
     position: absolute;
-    left: 50%;
     top: 50%;
-    height: 80px;
-    width: 80px;
-    transform: translateY(-325px) translateX(calc(395px - 100%));
+    left: 50%;
+    width: 90px;
+    height: 90px;
+    transform: translateX(calc(-50% + 430px)) translateY(calc(-50% - 430px));
     background-color: var(--color_interface);
     border: 3px solid var(--color_highlights);
     border-radius: 10px;
@@ -280,10 +281,19 @@
 #confirmTurn{
     position: absolute;
     left: 50%;
-    top: 550px;
+    bottom: 5px;
     height: 50px;
     width: 60%;
-    transform: translateX(-50%);   
+    transform: translateX(-50%);
+    border-radius: 10px;
+    text-align: center;
+    border: 2px solid var(--color_highlights);
+    background-color: var(--color_interface);
+    color: var(--color_contrast);
+    cursor: pointer;
+}
+#confirmTurn:hover{
+    background-color: var(--color_interface_light);
 }
 
 #stopGame{
@@ -291,11 +301,13 @@
     top: 50%;
     left: 230px;
     height: 50px;
-    width: 50px;
+    width: 150px;
     transform: translateY(calc(-50% - 350px)) translateX(-50%);
-    border-radius: 30%;
+    border-radius: 10px;
+    text-align: center;
     border: 2px solid var(--color_highlights);
     background-color: var(--color_interface);
+    color: var(--color_contrast);
     cursor: pointer;
 }
 #stopGame:hover{

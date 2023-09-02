@@ -139,6 +139,7 @@ function changeGameRules(buttonObject) {
             document.getElementById("firstTo701").style.outline = "none";
             document.getElementById(buttonObject.id).style.outline = "5px solid var(--color_highlights_bright)";
             newGameRules.subtype = buttonObject.id.slice(7);
+            document.getElementById("firstToX").innerHTML = newGameRules.subtype;
         }
     }
     
@@ -210,7 +211,7 @@ function updatePlayerList() {
     if (newGameRules.players.length == 0) {
         document.getElementById("createGameButton").disabled = true;
     } else {
-        if ((newGameRules.specifications.find((thisSpecification) => { return thisSpecification == "double" }) && newGameRules.players.length % 2 == 0) || !newGameRules.specifications.find((thisSpecification) => { return thisSpecification == "double" })) {
+        if ((newGameRules.specifications.includes("double") && newGameRules.players.length % 2 == 0) || !newGameRules.specifications.includes("double")) {
             document.getElementById("createGameButton").disabled = false;
         } else {
             document.getElementById("createGameButton").disabled = true;

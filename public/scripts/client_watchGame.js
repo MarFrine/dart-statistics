@@ -134,10 +134,11 @@ function updateWatchGameMenu(){
         }
         document.getElementById("watchGameTurnOrder").innerHTML = turnOrderString;
     }
-    
-    document.getElementById("watchGamePlayerPic").src = "playerPictures/" + currentPlayer.ImageFilename;
+    if(currentPlayer.image){
+        document.getElementById("watchGamePlayerPic").src = "playerPictures/" + currentPlayer.imageFilename;
+    }
     document.getElementById("watchGamePlayerName").innerHTML = "<font size='+5'><b>" + currentPlayer.name + "</b></font><br><font size='+4'>----<br><b>" + currentPlayer.nickname + "</b></font>"
-
+    console.log(currentPlayer)
     if(!currentGame.specifications.double){
         document.getElementById("watchGameCurrentPlayerTotalScore").innerHTML = "<br><h1>Gesamt: " + currentGame.scores[currentPlayerName].tempScore.totalScore + "</h1>";
     } else {

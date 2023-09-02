@@ -24,11 +24,13 @@ fs.readFile("./id_value.json", "utf8", (error, data) => {
     }
 });
 
-const accountUsername = "test";
+const accountUsername = "dart";
 
 let completeData;
 let currentAccount;
 let currentAccountData;
+
+let oldRecords;
 
 function getCompleteData() {
     fs.readFile("./data.json", "utf8", (error, data) => {
@@ -39,6 +41,12 @@ function getCompleteData() {
             currentAccountData = currentAccount.data
         }
     });
+    fs.readFile("./oldRecords.json", "utf8", (error, data) => {
+        if (error) { console.log(error); }
+        else {
+            oldRecords = JSON.parse(data);
+        }
+    });
 }
 getCompleteData();
 
@@ -47,7 +55,7 @@ let clientIDs = [];
 
 app.post("/login", (req, res) => {
     console.log(req.rawHeaders[req.rawHeaders.findIndex((thisElement) => { return thisElement == "User-Agent" }) + 1])
-    if (!req.body.username == accountUsername) {
+    if (req.body.username != accountUsername) {
         res.status(401).json({ "success": false, "error": "username", "reason": "account doesn't exist" });
     } else if (req.body.password == currentAccount.password) {
         let newClientID = clientIDs.length + 1;
@@ -112,7 +120,7 @@ app.get("/clientUpdate", (req, res) => {
 });
 
 app.get("/getAccountData", (req, res) => {
-    res.status(200).send({ "account": currentAccountData });
+    res.status(200).send({ "account": currentAccountData, "oldRecords": oldRecords});
 })
 
 app.post("/createGame", (req, res) => {
@@ -160,7 +168,7 @@ const storage = multer.diskStorage({
         cb(null, path.join(__dirname, '/public/playerPictures'));
     },
     filename: function (req, file, cb) {
-        console.log(file, req.body.name);
+        console.log(req.body, file);
         req.body.filename = req.body.name + path.extname(file.originalname);
         cb(null, req.body.name + path.extname(file.originalname));
     }
@@ -168,12 +176,12 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-app.post("/newPerson", upload.single("image"), (req, res) => {
-    console.log("new Person", req.body);
+app.post("/newPersonWithImage", upload.single("image"), (req, res) => {
+    console.log("new PersonWithImage", req.body);
     if (currentAccountData.people.find((thisPerson) => { return thisPerson.name == req.body.name })) {
         res.status(400).send({ "error": "name taken" });
     } else {
-        completeData = new ServerSidePerson.person(req.body, fs, currentAccount, completeData);
+        completeData = new ServerSidePerson.person(req.body, true, fs, currentAccount, completeData);
         currentAccount = completeData.find((thisAccount) => { return thisAccount.username == accountUsername });
         currentAccountData = currentAccount.data;
         //console.log(currentAccountData.people);
@@ -181,8 +189,38 @@ app.post("/newPerson", upload.single("image"), (req, res) => {
     }
 });
 
+app.post("/newPersonWithoutImage", (req, res) => {
+    console.log("new PersonWithoutImage", req.body);
+    if (currentAccountData.people.find((thisPerson) => { return thisPerson.name == req.body.name })) {
+        res.status(400).send({ "error": "name taken" });
+    } else {
+        completeData = new ServerSidePerson.person(req.body, false, fs, currentAccount, completeData);
+        currentAccount = completeData.find((thisAccount) => { return thisAccount.username == accountUsername });
+        currentAccountData = currentAccount.data;
+        //console.log(currentAccountData.people);
+        res.status(200).send({ "name": req.body.name, "accountData": currentAccountData });
+    }
+});
 
+app.post("/editPersonWithImage", upload.single("image"), (req, res) => {
+    console.log("edit Person", req.body);
+    let editPersonResponse = ServerSidePerson.editPerson(fs, completeData, currentAccount, oldRecords, req.body, true)
+    completeData = editPersonResponse.data;
+    oldRecords = editPersonResponse.records;
+    res.status(200).send({"state:": "player changed"});
+    currentAccount = completeData.find((thisAccount) => { return thisAccount.username == accountUsername });
+    currentAccountData = currentAccount.data;
+});
 
+app.post("/editPersonWithoutImage", (req, res) => {
+    console.log("edit Person", req.body);
+    let editPersonResponse = ServerSidePerson.editPerson(fs, completeData, currentAccount, oldRecords, req.body, false)
+    completeData = editPersonResponse.data;
+    oldRecords = editPersonResponse.records;
+    res.status(200).send({"state:": "player changed"});
+    currentAccount = completeData.find((thisAccount) => { return thisAccount.username == accountUsername });
+    currentAccountData = currentAccount.data;
+});
 
 
 app.post("/currentlyEditing", (req, res) => {

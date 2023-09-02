@@ -55,21 +55,27 @@ function switchInputType() {
 }
 
 let playerListSearchString = "";
-document.getElementById("allPlayersList").value = "";
+document.getElementById("allPlayersListSearch").value = "";
 function refreshMainMenuPlayerList() {
     let playerListString = "<br><br>";
+    let playerListEditString = "<br><br>";
     let playerListCopy = [...accountData.people];
     let filteredPlayerListCopy = playerListCopy.filter((thisPlayer)=>{return thisPlayer.name.includes(playerListSearchString)});
     filteredPlayerListCopy.sort((player1, player2)=>{return player2.gamesPlayed - player1.gamesPlayed});
     for(let i = 0; i < filteredPlayerListCopy.length; i++){
-        playerListString = playerListString + "<font size='+3'><a onclick='showPlayerStatistics(";
+        playerListString = playerListString + "<font size='7px'><a onclick='showPlayerStatistics(";
         playerListString = playerListString + '"' + filteredPlayerListCopy[i].name + '"';
-        playerListString = playerListString + ")' class='clickableText'>" + filteredPlayerListCopy[i].name + "</a></font><br><br>";
+        playerListString = playerListString + ")' class='clickableText'>" + filteredPlayerListCopy[i].name + "</a></font><br><br>"
+
+        playerListEditString = playerListEditString + "<font size='7px'><a class='clickableText' onclick='changeMenuPoint(";
+        playerListEditString = playerListEditString + '"editPlayer", "' + filteredPlayerListCopy[i].name + '"';
+        playerListEditString = playerListEditString + ")'> 	&#9998;</a></font></font><br><br>";
     }
     for (let i = 0; i < accountData.people.length; i++) {
         
     }
-    document.getElementById("allPlayersList").innerHTML = playerListString;
+    document.getElementById("allPlayersListNames").innerHTML = playerListString;
+    document.getElementById("allPlayersListEdit").innerHTML = playerListEditString;
 }
 
 document.getElementById("allPlayersListSearch").addEventListener("input", (change)=>{

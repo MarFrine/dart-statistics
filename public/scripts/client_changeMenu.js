@@ -1,7 +1,7 @@
 
 currentMenuPoint = "mainMenu";
 let changeMenuPointError = "";
-async function changeMenuPoint(menuPoint) {
+async function changeMenuPoint(menuPoint, menuPointParameter) {
     currentMenuPoint = menuPoint;
     clearInterval(periodicClientUpdate);
     clearInterval(periodicInputMessage);
@@ -14,7 +14,7 @@ async function changeMenuPoint(menuPoint) {
 
 
     console.log(menuPoint)
-    if (await updateMenu[menuPoint]()) {
+    if (await updateMenu[menuPoint](menuPointParameter)) {
         let menuPointDiv = document.getElementById(menuPoint);
 
         let affectedDivs = document.getElementsByClassName("mainMenuPoint")
@@ -82,6 +82,12 @@ let updateMenu = {
                 changeMenuPointError = "ein anderer Benutzer gibt die Ergebnisse bereits ein";
                 return false;
             }
+            if ((currentScores.throw1 && currentScores.throw2 && currentScores.throw3) || currentScores.overshoot || currentScores.finished) {
+                document.getElementById("confirmTurn").style.display = "block";
+                selectedScore = undefined;
+            } else {
+                document.getElementById("confirmTurn").style.display = "none";
+            }
             displayTurnOrder();
             clearInterval(periodicInputMessage);
             periodicInputMessage = setInterval("sendInputMessage()", 1000);
@@ -100,8 +106,11 @@ let updateMenu = {
 
 
     },
-    "gameStats": () => {
-
+    "gameStats": (game) => {
+        if(!game){
+            changeMenuPointError = "ausgewähltes Spiel existiert nicht!";
+            return false;
+        }
         return true;
     },
     "playerStats": () => {
@@ -113,6 +122,22 @@ let updateMenu = {
             changeMenuPointError = "keine Berechtigung ohne Login";
             return false;
         }
+        resetPlayerCreationForm();
+        return true;
+    },
+    "editPlayer": (player) => {
+        if(!loggedIn){
+            changeMenuPointError = "keine Berechtigung ohne Login";
+            return false;
+        }
+
+        resetPlayerEditForm(player);
+        return true;
+    },
+    "alltimeStats": ()=>{
+        createX01RecordList("allResults", "allResults", "allResults")
+        createSingleRecordList();
+        createDoubleRecordList();
         return true;
     }
 }

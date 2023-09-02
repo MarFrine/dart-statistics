@@ -1,7 +1,7 @@
 [
     {
-        "username": "test",
-        "password": "1234",
+        "username": "username",
+        "password": "password",
         "data": {
             "totalGames": 0,
             "people": [
